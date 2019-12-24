@@ -1,30 +1,42 @@
 import React, { useState } from 'react';
 import { View, FlatList, StyleSheet, Text } from 'react-native';
-
+import ActionButton from 'react-native-action-button';
 import Header from '../components/Header';
+import CardTitulos from '../components/CardTitulos';
 
 export default function Principal({ navigation }) {
 
-    const [calculos] = useState([
+    const [titulos] = useState([
         {
-            id: '0', apelido: 'Calc P.A', nome: 'Calculo Progressão Aritmética', formula: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7P3xjmlG2rSsb270Qs0n68IyDZ9VRQAY2NPx4E6wyCEeSFNNpAQ&s', tela: 'CalculoPA'
+            id: '0', tela: 'DetalheTitulo', descricao: 'Calculo Progressão Aritmética', valor: '122'
         },
         {
-            id: '1', apelido: 'Calc P.G', nome: 'Calculo Progressão Geométrica', formula: 'https://pbs.twimg.com/media/EH05LfxWwAEN1I5?format=png&name=240x240', tela: 'CalculoPG'
+            id: '1', tela: 'DetalheTitulo', descricao: 'Calculo Progressão Geométrica', valor: '35.22'
         },
+        {
+            id: '2', tela: 'DetalheTitulo', descricao: 'Calculo I', valor: '150'
+        },
+        {
+            id: '3', tela: 'DetalheTitulo', descricao: 'Calculo II', valor: '299'
+        }
     ]);
 
     return (
         <View style={styles.container}>
-            <Header titulo="Cobrança" voltar/>
+
+            <Header user sair />
 
             <FlatList
-                data={calculos}
-                keyExtractor={(calc) => calc.id}
-                renderItem={({ item }) => (
-                    <Text>{item.nome}</Text>
-                )}
+                style={styles.viewCardTitulos}
+                data={titulos}
+                keyExtractor={(t) => t.id}
+                renderItem={({ item }) =>
+                    <CardTitulos titulo={item} />
+                }
             />
+
+            <ActionButton buttonColor="#565656" onPress={() => navigation.navigate('DetalheTitulo')} />
+
         </View>
     );
 };
@@ -33,11 +45,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#444444',
-        marginTop: 24,
-        padding: 1,        
+        paddingTop: 10
     },
     cardCalc: {
-        flex: 1,
-        marginTop: 10
+        flex: 1
+    },
+    viewCardTitulos: {
+        marginTop: 15
     }
 });

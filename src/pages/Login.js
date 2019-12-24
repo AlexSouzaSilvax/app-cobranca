@@ -1,28 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TextInput, AsyncStorage, Alert, Text, TouchableOpacity, ToastAndroid, KeyboardAvoidingView } from 'react-native';
+import { View, StyleSheet, TextInput, AsyncStorage, Alert, Image, Text, TouchableOpacity, ToastAndroid, KeyboardAvoidingView } from 'react-native';
 import { Spinner } from 'native-base';
 import * as Font from 'expo-font';
 import axios from 'axios';
 import { url, sleep } from '../api';
 
+import logo from '../../assets/icon.png';
+
 export default function Login({ navigation }) {
 
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
-    const [email, setEmail] = useState('alex@gmail.com');
-    const [senha, setSenha] = useState('123');
+    const [email, setEmail] = useState('');
+    const [senha, setSenha] = useState('');
     const [btnLoading, setBtnLoading] = useState(false);
     const [textBtnLogar, setTextBtnLogar] = useState('Acessar');
 
     useEffect(() => {
         async function fetchFont() {
             await Font.loadAsync({
-                Chewy: require("../../assets/fonts/chewy/Chewy.ttf")
-            });
-            setLoading(false);
+                Chewy: require("../../assets/fonts/Chewy.ttf")
+            });            
         };
 
         fetchFont();
+        setLoading(false);
     });
 
     if (loading) {
@@ -36,7 +38,7 @@ export default function Login({ navigation }) {
         return (
             <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
 
-                {/*<Image source={logo} style={styles.logo} />*/}
+                <Image source={logo} style={styles.logo} />
                 <Text style={styles.titulo}>Cobrança</Text>
 
                 <View style={styles.form}>
@@ -79,7 +81,9 @@ export default function Login({ navigation }) {
     }
 
     async function validacaoLogin() {
+        navigation.navigate('Principal');
 
+        /*
         setBtnLoading(true);
 
         if (email == null || senha == null || email.trim() == '' || senha.trim() == '') {
@@ -140,7 +144,7 @@ export default function Login({ navigation }) {
                     setBtnLoading(false);
                     setTextBtnLogar('Serviço indisponível');
                 });
-        }
+        }*/
     }
 
 };
@@ -197,7 +201,7 @@ const styles = StyleSheet.create({
     titulo: {
         paddingTop: 15,
         fontSize: 58,
-        height: 75,
+        height: 90,
         fontFamily: 'Chewy',
         color: '#F3F3F3'
     },
