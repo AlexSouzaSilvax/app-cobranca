@@ -34,7 +34,7 @@ export default function Login({ navigation }) {
         fetchFont();
 
     }, []);
-                
+
 
     if (loading) {
         return (
@@ -82,12 +82,78 @@ export default function Login({ navigation }) {
 
             </KeyboardAvoidingView>
         );
-    }    
-    
-    async function validacaoLogin() {
-        Alert.alert(email);
     }
 
+    async function validacaoLogin() {
+
+        ToastAndroid.showWithGravityAndOffset(
+            `${email}\n${senha}`,
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+        );
+
+        /*
+        if (email == null || senha == null || email == '' || senha == '') {
+
+            ToastAndroid.showWithGravityAndOffset(
+                'Login/Senha é obrigatório.',
+                ToastAndroid.LONG,
+                ToastAndroid.BOTTOM,
+                25,
+                50,
+            );
+
+        } else {
+            setLoading(true);
+
+            await axios.get(url + 'usuarios/' + email + '/' + senha)
+                .then((response) => {
+                    setData(response.data);
+                    setLoading(false);
+                    console.log('Json login Carregado.');
+
+                    console.log('Tamanho da resposta: ' + data.length);
+
+                    for (let i = 0; i < data.length; i++) {
+
+                        if (email == data[i].email && senha == data[i].senha) {
+
+                            AsyncStorage.setItem('userToken', 'abc');
+                            navigation.navigate('Home');
+
+                            console.log('Usuário válido. Login: ' + email);
+
+                            ToastAndroid.showWithGravityAndOffset(
+                                'Seja bem-vindo: ' + email,
+                                ToastAndroid.LONG,
+                                ToastAndroid.BOTTOM,
+                                25,
+                                50,
+                            );
+
+                            setLoading(false);
+
+                        } else {
+                            ToastAndroid.showWithGravityAndOffset(
+                                'Usuário inválido.\nTente novamente',
+                                ToastAndroid.LONG,
+                                ToastAndroid.BOTTOM,
+                                25,
+                                50,
+                            );
+                        }
+
+                    }
+                    console.log('Acabou o método.');
+                })
+                .catch((error) => {
+                    console.error(error);
+                    Alert.alert(`Base Offline.`);
+                });
+        }
+    */}
 };
 
 const styles = StyleSheet.create({
@@ -137,6 +203,7 @@ const styles = StyleSheet.create({
         fontSize: 25
     },
     logo: {
+        marginTop: 40,
         width: 150,
         height: 150,
         alignItems: 'center',
