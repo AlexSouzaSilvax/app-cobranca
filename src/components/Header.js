@@ -21,7 +21,7 @@ function Header({ navigation, titulo, voltar, limparTela }) {
 
             {v ?
                 <View style={{ flex: 1 }}>
-                    <TouchableOpacity onPress={() => navigation.navigate('Principal')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                         <Image source={iconVoltar} style={styles.iconVoltar} />
                     </TouchableOpacity>
                 </View>

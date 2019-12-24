@@ -1,57 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import {
-    View,
-    StyleSheet,
-    TextInput,
-    AsyncStorage,
-    Alert,
-    Image,
-    Text,
-    TouchableOpacity,
-    ToastAndroid,
-    KeyboardAvoidingView
-} from 'react-native';
-
-import logo from '../../../assets/dolar.png';
-
+import { View, StyleSheet, TextInput, AsyncStorage, Alert, Text, TouchableOpacity, ToastAndroid, KeyboardAvoidingView } from 'react-native';
+import { Spinner } from 'native-base';
 import * as Font from 'expo-font';
+import axios from 'axios';
+import { url, sleep } from '../api';
 
 export default function Login({ navigation }) {
 
     const [loading, setLoading] = useState(true);
-    const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
+    const [data, setData] = useState([]);
+    const [email, setEmail] = useState('alex@gmail.com');
+    const [senha, setSenha] = useState('123');
+    const [btnLoading, setBtnLoading] = useState(false);
+    const [textBtnLogar, setTextBtnLogar] = useState('Acessar');
 
     useEffect(() => {
         async function fetchFont() {
             await Font.loadAsync({
-                Chewy: require("../../../assets/fonts/chewy/Chewy.ttf")
+                Chewy: require("../../assets/fonts/chewy/Chewy.ttf")
             });
-
             setLoading(false);
         };
 
         fetchFont();
-
-    }, []);
-
+    });
 
     if (loading) {
         return (
             <View style={styles.container}>
+                <Spinner color='#F3F3F3' />
                 <Text style={styles.textLoading}>Carregando...</Text>
             </View>
         );
     } else {
         return (
-            <KeyboardAvoidingView style={styles.container} behavior="padding" enabled >
+            <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
 
-                <Image source={logo} style={styles.logo} />
+                {/*<Image source={logo} style={styles.logo} />*/}
                 <Text style={styles.titulo}>Cobrança</Text>
 
                 <View style={styles.form}>
 
-                    <Text style={[styles.label, { paddingTop: 15 }]}>EMAIL</Text>
+                    <Text style={[styles.label, { paddingTop: 30 }]}>EMAIL</Text>
                     <TextInput
                         style={styles.input}
                         placeholder="Seu e-mail"
@@ -74,8 +64,12 @@ export default function Login({ navigation }) {
                         onChangeText={(senha) => setSenha(senha)}
                     />
 
-                    <TouchableOpacity style={styles.button} onPress={validacaoLogin}>
-                        <Text style={styles.buttonText}>Acessar</Text>
+                    <TouchableOpacity style={styles.button} onPress={() => validacaoLogin()}>
+                        {btnLoading ?
+                            <Spinner color='#F3F3F3' />
+                            :
+                            <Text style={styles.buttonText}>{textBtnLogar}</Text>
+                        }
                     </TouchableOpacity>
 
                 </View>
@@ -86,32 +80,29 @@ export default function Login({ navigation }) {
 
     async function validacaoLogin() {
 
-        ToastAndroid.showWithGravityAndOffset(
-            `${email}\n${senha}`,
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-            25,
-            50,
-        );
+        setBtnLoading(true);
 
-        /*
-        if (email == null || senha == null || email == '' || senha == '') {
+        if (email == null || senha == null || email.trim() == '' || senha.trim() == '') {
+
+            setBtnLoading(false);
 
             ToastAndroid.showWithGravityAndOffset(
                 'Login/Senha é obrigatório.',
                 ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
+                ToastAndroid.INFERIOR,
                 25,
-                50,
+                50 ,
             );
 
         } else {
-            setLoading(true);
 
-            await axios.get(url + 'usuarios/' + email + '/' + senha)
+            setBtnLoading(true);
+
+            await axios.get(`${url}titulos/api/validaAcesso/email=${email}/senha=${senha}`)
                 .then((response) => {
+                    console.log(response.data)
                     setData(response.data);
-                    setLoading(false);
+                    setBtnLoading(false);
                     console.log('Json login Carregado.');
 
                     console.log('Tamanho da resposta: ' + data.length);
@@ -120,48 +111,44 @@ export default function Login({ navigation }) {
 
                         if (email == data[i].email && senha == data[i].senha) {
 
-                            AsyncStorage.setItem('userToken', 'abc');
-                            navigation.navigate('Home');
+                            navigation.navigate('Principal');
 
                             console.log('Usuário válido. Login: ' + email);
 
                             ToastAndroid.showWithGravityAndOffset(
-                                'Seja bem-vindo: ' + email,
+                                'Seja bem-vindo',
                                 ToastAndroid.LONG,
                                 ToastAndroid.BOTTOM,
                                 25,
                                 50,
                             );
-
-                            setLoading(false);
-
-                        } else {
+                            setBtnLoading(false);
+                        } else if (!email == data[i].email && !senha == data[i].senha) {
                             ToastAndroid.showWithGravityAndOffset(
-                                'Usuário inválido.\nTente novamente',
+                                'Usuário inválido.',
                                 ToastAndroid.LONG,
                                 ToastAndroid.BOTTOM,
                                 25,
                                 50,
                             );
+                            setBtnLoading(false);
                         }
-
                     }
                     console.log('Acabou o método.');
                 })
                 .catch((error) => {
-                    console.error(error);
-                    Alert.alert(`Base Offline.`);
+                    setBtnLoading(false);
+                    setTextBtnLogar('Serviço indisponível');
                 });
         }
-    */}
+    }
+
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#444444',
-        marginTop: 24,
-        padding: 1,
         alignItems: 'center',
         justifyContent: 'center'
     },
@@ -171,9 +158,9 @@ const styles = StyleSheet.create({
         marginTop: 30,
     },
     label: {
-        fontSize: 14,
+        fontSize: 18,
         fontFamily: 'Chewy',
-        color: '#F3F3F3',
+        color: '#aaaaaa',
         marginBottom: 8,
     },
     input: {
@@ -182,16 +169,15 @@ const styles = StyleSheet.create({
         backgroundColor: '#363636',
         paddingHorizontal: 20,
         fontFamily: 'Chewy',
-        fontSize: 17,
+        fontSize: 23,
         color: '#F3F3F3',
         height: 44,
         marginBottom: 20,
-        borderRadius: 5,
-        alignItems: 'center'
+        borderRadius: 5
     },
     button: {
         marginTop: 15,
-        height: 45,
+        height: 50,
         backgroundColor: '#303030',
         justifyContent: 'center',
         alignItems: 'center',
@@ -200,23 +186,23 @@ const styles = StyleSheet.create({
     buttonText: {
         color: '#F3F3F3',
         fontFamily: 'Chewy',
-        fontSize: 25
+        fontSize: 28
     },
     logo: {
-        marginTop: 40,
         width: 150,
         height: 150,
         alignItems: 'center',
         justifyContent: 'center'
     },
     titulo: {
-        paddingTop: 10,
-        fontSize: 50,
+        paddingTop: 15,
+        fontSize: 58,
         height: 75,
         fontFamily: 'Chewy',
         color: '#F3F3F3'
     },
     textLoading: {
+        paddingTop: 15,
         fontSize: 20,
         fontFamily: 'Chewy',
         color: '#F3F3F3',

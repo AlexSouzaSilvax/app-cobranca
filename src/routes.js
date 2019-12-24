@@ -8,7 +8,7 @@ const Routes = createAppContainer(
     createSwitchNavigator({
         Login,
         Principal,
-        //DetalheTitulo,
+  //      DetalheTitulo,
     })
 );
 

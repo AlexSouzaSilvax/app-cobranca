@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, FlatList, StyleSheet, Text } from 'react-native';
 
-import Header from '../../components/Header';
+import Header from '../components/Header';
 
 export default function Principal({ navigation }) {
 
@@ -16,7 +16,7 @@ export default function Principal({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Header titulo="Cobrança" />
+            <Header titulo="Cobrança" voltar/>
 
             <FlatList
                 data={calculos}
