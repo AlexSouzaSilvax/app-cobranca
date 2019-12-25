@@ -7,13 +7,14 @@ import { withNavigation } from 'react-navigation';// para usar a navegacao de ro
 function CardTitulos({ navigation, titulo }) {
 
     const [loading, setLoading] = useState(false);
-    const [corStatus, setCorStatus] = useState();
+    const [corSttsR, setCorSttsR] = useState();
+    const [corSttsP, setCorSttsP] = useState();
 
     useEffect(() => {
         if (titulo.status == 'Recebido') {
-            setCorStatus('green');
-        } else {
-            setCorStatus();
+            setCorSttsR('green');
+        } else if (titulo.status == 'Pendente') {
+            setCorSttsP('yellow');
         }
     });
 
@@ -25,7 +26,7 @@ function CardTitulos({ navigation, titulo }) {
         );
     } else {
         return (
-            <TouchableOpacity onPress={() => navigation.navigate(titulo.tela, { titulo } )}>
+            <TouchableOpacity onPress={() => navigation.navigate(titulo.tela, { titulo })}>
 
                 <View style={styles.card}>
 
@@ -60,14 +61,18 @@ function CardTitulos({ navigation, titulo }) {
 
                     <View style={{ paddingTop: 20, flexDirection: 'row', justifyContent: 'center' }}>
 
-                        {corStatus ?
+                        {corSttsR ?
                             <View style={styles.cardStatusGreen}>
                                 <Text style={styles.textStatus}>{titulo.status}</Text>
                             </View>
-                            :
-                            <View style={styles.cardStatusRed}>
-                                <Text style={styles.textStatus}>{titulo.status}</Text>
-                            </View>
+                            : corSttsP ?
+                                <View style={styles.cardStatusYellow}>
+                                    <Text style={styles.textStatus}>{titulo.status}</Text>
+                                </View>
+                                :
+                                <View style={styles.cardStatusRed}>
+                                    <Text style={styles.textStatus}>{titulo.status}</Text>
+                                </View>
                         }
                     </View>
 
@@ -107,7 +112,7 @@ const styles = StyleSheet.create({
         color: '#F3F3F3'
     },
     cardStatusGreen: {
-        backgroundColor: 'green',
+        backgroundColor: '#77dd77',
         borderRadius: 22,
         width: 200,
         height: 50,
@@ -115,7 +120,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     cardStatusRed: {
-        backgroundColor: 'red',
+        backgroundColor: '#ff6961',
+        borderRadius: 22,
+        width: 200,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    cardStatusYellow: {        
+        backgroundColor: '#eead2d',
         borderRadius: 22,
         width: 200,
         height: 50,
@@ -126,6 +139,6 @@ const styles = StyleSheet.create({
         margin: 15,
         fontSize: 25,
         fontFamily: 'Chewy',
-        color: '#F3F3F3'
+        color: '#484848'//'#F3F3F3'
     },
 });

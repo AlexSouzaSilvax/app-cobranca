@@ -7,21 +7,14 @@ import { url, sleep } from '../api';
 import Header from '../components/Header';
 import logo from '../../assets/icon.png';
 
-export default function Login({ navigation, titulo }) {
+export default function Login({ navigation }) {
 
     const [loading, setLoading] = useState(false);
     const t = navigation.getParam('titulo');
 
-    /*useEffect(() => {
-        async function fetchFont() {
-            await Font.loadAsync({
-                Chewy: require("../../assets/fonts/Chewy.ttf")
-            });            
-        };
+    useEffect(() => {
 
-        fetchFont();
-        setLoading(false);
-    });*/
+    });
 
     if (loading) {
         return (
@@ -34,10 +27,10 @@ export default function Login({ navigation, titulo }) {
         return (
             <View style={styles.container}>
 
-                <Header titulo={t.descricao} voltar={() => navigation.navigate('Principal')} />
+                <Header titulo={t.descricao} voltar salvar />
 
-                <Text style={styles.textLoading}>{t.descricao}</Text>
-                <Button title={'Voltar'} onPress={() => navigation.navigate('Principal')} />
+                
+
             </View>
         );
     }

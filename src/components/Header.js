@@ -1,32 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, Image, Alert } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Spinner } from 'native-base';
 import * as Font from 'expo-font';
 import iconUser from '../../assets/user.png'
+import iconVoltar from '../../assets/iconVoltar.png'
 
-function Header({ navigation, titulo, user, sair }) {
+function Header({ navigation, titulo, user, sair, voltar, salvar }) {
 
     const [t, setT] = useState(titulo);
-    const [v, setV] = useState(user);
-    const [l] = useState(sair);
+    const [u] = useState(user);
+    const [e] = useState(sair);
+    const [v] = useState(voltar);
+    const [s] = useState(salvar);
     const [loading, setLoading] = useState(false);
-
-   /* useEffect(() => {
-
-        if (!t) {
-            setT('Cobrança');
-        }
-
-        async function fetchFont() {
-            await Font.loadAsync({
-                Chewy: require("../../assets/fonts/Chewy.ttf")
-            });            
-        };
-
-        fetchFont();
-        setLoading(false);
-    });*/
 
     if (loading) {
         return (
@@ -38,28 +25,40 @@ function Header({ navigation, titulo, user, sair }) {
         return (
             <View style={styles.header}>
 
-                {v ?
+                {u ?
                     <View style={{ flex: 1 }}>
                         <TouchableOpacity>
                             <Image source={iconUser} style={styles.iconUser} />
                         </TouchableOpacity>
                     </View>
-                    :
-                    <View style={{ flex: 1 }}></View>
+                    : v ?
+                        <View>
+                            <TouchableOpacity onPress={() => navigation.navigate('Principal')}>
+                                <Image source={iconVoltar} style={styles.iconVoltar} />
+                            </TouchableOpacity>
+                        </View>
+                        :
+                        <View style={{ flex: 1 }} />
                 }
 
-                <View style={{ flex: 1 }}>
+                <View style={{ flex: 2 }}>
                     <Text style={styles.titulo}>{t}</Text>
                 </View>
 
-                {l ?
+                {e ?
                     <View style={{ flex: 1 }}>
                         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                             <Text style={styles.textSair}>X</Text>
                         </TouchableOpacity>
                     </View>
-                    :
-                    <View style={{ flex: 1 }}></View>
+                    : s ?
+                        <View>
+                            <TouchableOpacity onPress={() => Alert.alert('Salvo com sucesso.')}>
+                                <Text style={styles.textSalvar}>V</Text>
+                            </TouchableOpacity>
+                        </View>
+                        :
+                        <View style={{ flex: 1 }} />
                 }
 
             </View>
@@ -93,6 +92,11 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         marginStart: 12
     },
+    iconVoltar: {
+        height: 30,
+        marginTop: 5,
+        alignSelf: 'flex-start'        
+    },
     textSair: {
         marginEnd: 12,
         alignSelf: 'flex-end',
@@ -100,6 +104,14 @@ const styles = StyleSheet.create({
         fontSize: 33,
         fontFamily: 'Chewy',
         marginTop: 2
+    },
+    textSalvar: {
+        color: 'green',
+        fontSize: 40,
+        paddingEnd: 14,
+        marginTop: -5,
+        alignSelf: 'flex-end',                
+        fontFamily: 'Chewy',        
     }
 });
 
