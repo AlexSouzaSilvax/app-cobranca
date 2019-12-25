@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, FlatList, StyleSheet, Text } from 'react-native';
-//import ActionButton from 'react-native-action-button';
+import ActionButton from 'react-native-action-button';
 import Header from '../components/Header';
 import CardTitulos from '../components/CardTitulos';
 
@@ -8,7 +8,7 @@ export default function Principal({ navigation }) {
 
     const [titulos] = useState([
         {
-            id: '0', tela: 'DetalheTitulo', dataVencimento: '24/12/2020', descricao: 'Apartamento 101', status: 'Recebido', valor: '980'
+            id: '0', tela: 'DetalheTitulo', dataVencimento: '24/12/2020', descricao: 'Casa do João', status: 'Recebido', valor: '980'
         },
         {
             id: '1', tela: 'DetalheTitulo', dataVencimento: '12/12/2022', descricao: 'Mansão Conde De Bonfim', status: 'Pendente', valor: '949.90'
@@ -35,7 +35,7 @@ export default function Principal({ navigation }) {
                 }
             />
 
-            {/*<ActionButton buttonColor="#565656" onPress={() => navigation.navigate('DetalheTitulo')} />*/}
+            <ActionButton buttonColor="#565656" onPress={() => navigation.navigate('DetalheTitulo')} />
 
         </View>
     );

@@ -10,24 +10,11 @@ function CardTitulos({ navigation, titulo }) {
     const [corStatus, setCorStatus] = useState();
 
     useEffect(() => {
-        /* async function fetchFont() {
-             await Font.loadAsync({
-                 Chewy: require("../../assets/fonts/Chewy.ttf"),
-                 Roboto: require("../../node_modules/native-base/Fonts/Roboto.ttf"),
-                 Roboto_medium: require("../../node_modules/native-base/Fonts/Roboto_medium.ttf"),
-             });
-         };
- 
-         fetchFont();
-         setLoading(false);
-         */
-
         if (titulo.status == 'Recebido') {
             setCorStatus('green');
         } else {
             setCorStatus();
         }
-
     });
 
     if (loading) {
@@ -38,7 +25,7 @@ function CardTitulos({ navigation, titulo }) {
         );
     } else {
         return (
-            <TouchableOpacity onPress={() => navigation.navigate(titulo.tela)}>
+            <TouchableOpacity onPress={() => navigation.navigate(titulo.tela, { titulo } )}>
 
                 <View style={styles.card}>
 

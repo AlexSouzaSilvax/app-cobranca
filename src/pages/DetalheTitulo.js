@@ -4,17 +4,13 @@ import { Spinner } from 'native-base';
 import * as Font from 'expo-font';
 import axios from 'axios';
 import { url, sleep } from '../api';
-
+import Header from '../components/Header';
 import logo from '../../assets/icon.png';
 
-export default function Login({ navigation }) {
+export default function Login({ navigation, titulo }) {
 
     const [loading, setLoading] = useState(false);
-    const [data, setData] = useState([]);
-    const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
-    const [btnLoading, setBtnLoading] = useState(false);
-    const [textBtnLogar, setTextBtnLogar] = useState('Acessar');
+    const t = navigation.getParam('titulo');
 
     /*useEffect(() => {
         async function fetchFont() {
@@ -36,10 +32,13 @@ export default function Login({ navigation }) {
         );
     } else {
         return (
-           <View style={styles.container}>
-               <Text style={styles.textLoading}>Tela DetalheTitulo</Text>
-               <Button title={'Voltar'} onPress={() => navigation.navigate('Principal')}/>
-           </View>
+            <View style={styles.container}>
+
+                <Header titulo={t.descricao} voltar={() => navigation.navigate('Principal')} />
+
+                <Text style={styles.textLoading}>{t.descricao}</Text>
+                <Button title={'Voltar'} onPress={() => navigation.navigate('Principal')} />
+            </View>
         );
     }
 
@@ -48,9 +47,8 @@ export default function Login({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#444444',
-        alignItems: 'center',
-        justifyContent: 'center'
+        paddingTop: 10,
+        backgroundColor: '#444444'
     },
     form: {
         alignSelf: 'stretch',
