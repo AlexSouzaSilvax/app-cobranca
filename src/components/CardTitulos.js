@@ -1,25 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import * as Font from 'expo-font';
-import { Card, CardItem, Text, Left, Body, Spinner } from 'native-base';
+import { Card, CardItem, Left, Body, Spinner } from 'native-base';
 import { withNavigation } from 'react-navigation';// para usar a navegacao de routes por components
 
 function CardTitulos({ navigation, titulo }) {
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [corStatus, setCorStatus] = useState();
 
     useEffect(() => {
-        async function fetchFont() {
-            await Font.loadAsync({
-                Chewy: require("../../assets/fonts/Chewy.ttf"),
-                Roboto: require("../../node_modules/native-base/Fonts/Roboto.ttf"),
-                Roboto_medium: require("../../node_modules/native-base/Fonts/Roboto_medium.ttf"),
-            });
-        };
+        /* async function fetchFont() {
+             await Font.loadAsync({
+                 Chewy: require("../../assets/fonts/Chewy.ttf"),
+                 Roboto: require("../../node_modules/native-base/Fonts/Roboto.ttf"),
+                 Roboto_medium: require("../../node_modules/native-base/Fonts/Roboto_medium.ttf"),
+             });
+         };
+ 
+         fetchFont();
+         setLoading(false);
+         */
 
-        fetchFont();
-        setLoading(false);
-    }, []);
+        if (titulo.status == 'Recebido') {
+            setCorStatus('green');
+        } else {
+            setCorStatus();
+        }
+
+    });
 
     if (loading) {
         return (
@@ -30,20 +39,53 @@ function CardTitulos({ navigation, titulo }) {
     } else {
         return (
             <TouchableOpacity onPress={() => navigation.navigate(titulo.tela)}>
+
                 <View style={styles.card}>
 
+                    <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                        <Text style={styles.textTitulo}>{titulo.descricao}</Text>
+                    </View>
+
+                    <View style={{ flexDirection: 'row' }}>
+
+                        <View style={{ flex: 1, alignSelf: 'flex-start', paddingStart: 30 }}>
+                            <Text style={styles.textFix}>Valor</Text>
+                        </View>
+
+                        <View style={{ flex: 1, alignSelf: 'flex-end', marginLeft: 150 }}>
+                            <Text style={styles.textFix}>Data Venc.</Text>
+                        </View>
+
+                    </View>
+
+
+                    <View style={{ flexDirection: 'row' }}>
+
+                        <View style={{ flex: 1, alignSelf: 'flex-start', paddingStart: 30 }}>
+                            <Text style={styles.textVariavel}>{titulo.valor}</Text>
+                        </View>
+
+                        <View style={{ flex: 1, alignSelf: 'flex-end', marginLeft: 140 }}>
+                            <Text style={styles.textVariavel}>{titulo.dataVencimento}</Text>
+                        </View>
+
+                    </View>
+
+                    <View style={{ paddingTop: 20, flexDirection: 'row', justifyContent: 'center' }}>
+
+                        {corStatus ?
+                            <View style={styles.cardStatusGreen}>
+                                <Text style={styles.textStatus}>{titulo.status}</Text>
+                            </View>
+                            :
+                            <View style={styles.cardStatusRed}>
+                                <Text style={styles.textStatus}>{titulo.status}</Text>
+                            </View>
+                        }
+                    </View>
+
                 </View>
-                {/*<Card>
-                        <CardItem>
-                            <Left>
-                                <Body>
-                                    <Text style={{ fontFamily: 'Chewy', color: '#F3F3F3' }}>{titulo.descricao}</Text>
-                                    <Text note>{titulo.valor}</Text>
-                                </Body>
-                            </Left>
-                        </CardItem>
-                    </Card>
-                    */}
+
             </TouchableOpacity>
         );
     }
@@ -54,15 +96,49 @@ export default withNavigation(CardTitulos);
 const styles = StyleSheet.create({
     card: {
         width: 400,
-        height: 200,
+        height: 220,
         margin: 5,
         borderRadius: 12,
         backgroundColor: '#303030'
     },
-    card1: {
-        margin: 5,
-        borderRadius: 12,
+    textTitulo: {
+        paddingTop: 15,
+        fontSize: 25,
+        fontFamily: 'Chewy',
+        color: '#F3F3F3'
+    },
+    textFix: {
+        paddingTop: 15,
+        fontSize: 20,
+        fontFamily: 'Chewy',
+        color: '#565656'
+    },
+    textVariavel: {
+        paddingTop: 15,
+        fontSize: 20,
+        fontFamily: 'Chewy',
+        color: '#F3F3F3'
+    },
+    cardStatusGreen: {
+        backgroundColor: 'green',
+        borderRadius: 22,
+        width: 200,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    cardStatusRed: {
         backgroundColor: 'red',
-        borderBottomWidth: 0
-    }
+        borderRadius: 22,
+        width: 200,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    textStatus: {
+        margin: 15,
+        fontSize: 25,
+        fontFamily: 'Chewy',
+        color: '#F3F3F3'
+    },
 });

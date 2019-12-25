@@ -9,14 +9,14 @@ import logo from '../../assets/icon.png';
 
 export default function Login({ navigation }) {
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [btnLoading, setBtnLoading] = useState(false);
     const [textBtnLogar, setTextBtnLogar] = useState('Acessar');
 
-    useEffect(() => {
+    /*useEffect(() => {
         async function fetchFont() {
             await Font.loadAsync({
                 Chewy: require("../../assets/fonts/Chewy.ttf")
@@ -25,7 +25,7 @@ export default function Login({ navigation }) {
 
         fetchFont();
         setLoading(false);
-    });
+    });*/
 
     if (loading) {
         return (

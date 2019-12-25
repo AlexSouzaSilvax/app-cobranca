@@ -10,9 +10,9 @@ function Header({ navigation, titulo, user, sair }) {
     const [t, setT] = useState(titulo);
     const [v, setV] = useState(user);
     const [l] = useState(sair);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
+   /* useEffect(() => {
 
         if (!t) {
             setT('Cobrança');
@@ -20,13 +20,13 @@ function Header({ navigation, titulo, user, sair }) {
 
         async function fetchFont() {
             await Font.loadAsync({
-                Chewy: require("../../assets/fonts/chewy/Chewy.ttf")
+                Chewy: require("../../assets/fonts/Chewy.ttf")
             });            
         };
 
         fetchFont();
         setLoading(false);
-    });
+    });*/
 
     if (loading) {
         return (
