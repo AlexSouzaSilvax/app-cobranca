@@ -27,7 +27,7 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "br.com.alexsouzasilvax.appcobranca"
+      "package": "com.alexsouzasilvax.appcobrancaalgaworks"
     }
-  }
-}
+   }
+ }
