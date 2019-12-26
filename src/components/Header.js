@@ -90,29 +90,31 @@ const styles = StyleSheet.create({
         marginTop: 3
     },
     iconUser: {
-        height: 40,
-        width: 40,
-        marginTop: 3,
-        alignSelf: 'flex-start',
-        marginStart: 8
+        height: 30,
+        width: 30,
+        marginTop: 5,
+        marginStart: 15,
+        alignSelf: 'flex-start'
     },
     iconVoltar: {
-        height: 47,
-        width: 47,
-        marginStart: 8,
+        marginTop: 5,
+        height: 34,
+        width: 34,
+        marginStart: 14,
         alignSelf: 'flex-start'
     },
     iconSalvar: {
-        height: 47,
-        width: 47,
-        marginEnd: 8,
+        height: 35,
+        width: 35,
+        marginTop: 5,
+        marginEnd: 14,
         alignSelf: 'flex-end'
     },
     iconSair: {
-        marginTop: 3,
-        height: 40,
-        width: 40,
-        marginEnd: 8,
+        marginTop: 5,
+        height: 30,
+        width: 30,
+        marginEnd: 15,
         alignSelf: 'flex-end'
     },
     textSair: {

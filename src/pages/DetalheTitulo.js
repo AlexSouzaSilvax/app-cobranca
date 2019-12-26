@@ -182,8 +182,8 @@ const styles = StyleSheet.create({
     cardTitulo: {
         width: width - 30,
         height: height - 200,
-        marginTop: 50,
-        borderRadius: 2,
+        marginTop: 25,
+        borderRadius: 8,
         backgroundColor: '#303030',
         alignSelf: 'center'
     },
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     },
     textFix: {
         alignSelf: 'center',
-        paddingTop: 20,
+        paddingTop: 5,
         fontSize: 25,
         fontFamily: 'Chewy',
         color: '#565656'
