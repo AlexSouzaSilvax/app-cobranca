@@ -6,6 +6,7 @@ import axios from 'axios';
 import { url, sleep } from '../api';
 
 import logo from '../../assets/icon.png';
+import Input from '../components/Input';
 
 export default function Login({ navigation }) {
 
@@ -15,19 +16,7 @@ export default function Login({ navigation }) {
     const [senha, setSenha] = useState('');
     const [btnLoading, setBtnLoading] = useState(false);
     const [textBtnLogar, setTextBtnLogar] = useState('Acessar');
-
-    /*
-    async function fetchFont() {
-        await Font.loadAsync({
-            'Chewy': require('../../assets/fonts/Chewy.ttf')
-        });
-    }
-
-    useEffect(() => {
-        fetchFont();
-        setLoading(false);
-    });
-*/
+    
     if (loading) {
         return (
             <View style={styles.container}>
@@ -45,26 +34,22 @@ export default function Login({ navigation }) {
                 <View style={styles.form}>
 
                     <Text style={[styles.label, { paddingTop: 30 }]}>EMAIL</Text>
-                    <TextInput
-                        style={styles.input}
+                    <Input 
                         placeholder="Seu e-mail"
                         placeholderTextColor="#565656"
                         keyboardType="email-address" // especifica que é um input de e-mail, teclado de e-mail com @ incluso.
                         autoCapitalize="none" // não permitir que já se inicie texto com caixa alta.
                         autoCorrect={false} //não permitir fazer correção do texto      
                         value={email}
-                        onChangeText={(email) => setEmail(email)}
                     />
 
                     <Text style={styles.label}>SENHA</Text>
-                    <TextInput
-                        style={styles.input}
+                    <Input                        
                         placeholder="Sua senha"
                         placeholderTextColor="#565656"
                         autoCorrect={false} //não permitir fazer correção do texto
                         secureTextEntry={true}
-                        value={senha}
-                        onChangeText={(senha) => setSenha(senha)}
+                        value={senha}                        
                     />
 
                     <TouchableOpacity style={styles.button} onPress={() => validacaoLogin()}>
@@ -83,69 +68,6 @@ export default function Login({ navigation }) {
 
     async function validacaoLogin() {
         navigation.navigate('Principal');
-
-        /*
-        setBtnLoading(true);
-
-        if (email == null || senha == null || email.trim() == '' || senha.trim() == '') {
-
-            setBtnLoading(false);
-
-            ToastAndroid.showWithGravityAndOffset(
-                'Login/Senha é obrigatório.',
-                ToastAndroid.LONG,
-                ToastAndroid.INFERIOR,
-                25,
-                50 ,
-            );
-
-        } else {
-
-            setBtnLoading(true);
-
-            await axios.get(`${url}titulos/api/validaAcesso/email=${email}/senha=${senha}`)
-                .then((response) => {
-                    console.log(response.data)
-                    setData(response.data);
-                    setBtnLoading(false);
-                    console.log('Json login Carregado.');
-
-                    console.log('Tamanho da resposta: ' + data.length);
-
-                    for (let i = 0; i < data.length; i++) {
-
-                        if (email == data[i].email && senha == data[i].senha) {
-
-                            navigation.navigate('Principal');
-
-                            console.log('Usuário válido. Login: ' + email);
-
-                            ToastAndroid.showWithGravityAndOffset(
-                                'Seja bem-vindo',
-                                ToastAndroid.LONG,
-                                ToastAndroid.BOTTOM,
-                                25,
-                                50,
-                            );
-                            setBtnLoading(false);
-                        } else if (!email == data[i].email && !senha == data[i].senha) {
-                            ToastAndroid.showWithGravityAndOffset(
-                                'Usuário inválido.',
-                                ToastAndroid.LONG,
-                                ToastAndroid.BOTTOM,
-                                25,
-                                50,
-                            );
-                            setBtnLoading(false);
-                        }
-                    }
-                    console.log('Acabou o método.');
-                })
-                .catch((error) => {
-                    setBtnLoading(false);
-                    setTextBtnLogar('Serviço indisponível');
-                });
-        }*/
     }
 
 };
@@ -168,9 +90,7 @@ const styles = StyleSheet.create({
         color: '#aaaaaa',
         marginBottom: 8,
     },
-    input: {
-        borderWidth: 1,
-        borderColor: '#363636',
+    input: {        
         backgroundColor: '#363636',
         paddingHorizontal: 20,
         fontFamily: 'Chewy',

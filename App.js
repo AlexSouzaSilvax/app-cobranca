@@ -1,12 +1,3 @@
-/*import React from 'react';
-
-import Routes from './src/routes';
-
-export default function App() {
-  return <Routes />
-}
-*/
-
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { Spinner } from 'native-base';
@@ -41,19 +32,6 @@ export default class App extends React.Component {
         </View>
       );
     }
-    {/*return (
-      <View>
-        {
-          !this.state.loadFont ?
-            (
-              <View style={styles.container}>
-                <Spinner color='#F3F3F3' />
-              </View>
-            ) : <Routes />
-        }
-      </View>
-    );
-      */}
   }
 
 }

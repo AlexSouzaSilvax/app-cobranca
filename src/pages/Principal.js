@@ -47,9 +47,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#444444',
         paddingTop: 10
     },
-    cardCalc: {
-        flex: 1
-    },
     viewCardTitulos: {
         marginTop: 15
     }

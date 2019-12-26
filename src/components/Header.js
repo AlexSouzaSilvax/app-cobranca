@@ -6,7 +6,7 @@ import * as Font from 'expo-font';
 import iconUser from '../../assets/user.png'
 import iconVoltar from '../../assets/iconVoltar.png'
 
-function Header({ navigation, titulo, user, sair, voltar, salvar }) {
+function Header({ navigation, titulo, user, sair, voltar, salvar, data }) {
 
     const [t, setT] = useState(titulo);
     const [u] = useState(user);
@@ -53,7 +53,7 @@ function Header({ navigation, titulo, user, sair, voltar, salvar }) {
                     </View>
                     : s ?
                         <View>
-                            <TouchableOpacity onPress={() => Alert.alert('Salvo com sucesso.')}>
+                            <TouchableOpacity onPress={() => Alert.alert(data.descricao)}>
                                 <Text style={styles.textSalvar}>V</Text>
                             </TouchableOpacity>
                         </View>
