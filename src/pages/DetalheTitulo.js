@@ -4,7 +4,8 @@ import { Spinner } from 'native-base';
 import Header from '../components/Header';
 import InputComponent from '../components/Input';
 
-import DatePicker from 'react-native-datepicker';
+import DatePicker from 'react-native-datepicker'
+
 
 const { width, height } = Dimensions.get('window');
 
@@ -139,7 +140,27 @@ export default function Login({ navigation }) {
                     <InputComponent valor={valor} onChangeText={(v) => setValor(v)} autoCorrect={false} />
 
                     <Text style={styles.textFix}>Data de Vencimento</Text>
-                    <InputComponent valor={dataVencimento} onChangeText={(d) => setDataVencimento(d)} autoCorrect={false} />
+                    {/*<InputComponent valor={dataVencimento} onChangeText={(d) => setDataVencimento(d)} autoCorrect={false} />*/}
+                    <DatePicker
+                        style={{ width: 200 }}
+                        date={dataVencimento} //initial date from state
+                        mode="date"
+                        format="DD/MM/YYYY"
+                        minDate="01/01/2010"
+                        maxDate="01/01/2030"
+                        onDateChange={date => { setDataVencimento(date) }}
+                        customStyles={{
+                            dateIcon: {
+                                position: 'absolute',
+                                left: 0,
+                                top: 4,
+                                marginLeft: 0
+                            },
+                            dateInput: {
+                                marginLeft: 36
+                            }
+                        }}
+                    />
 
                     <Text style={styles.textFix}>Status</Text>
 
