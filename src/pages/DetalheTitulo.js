@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Dimensions, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Dimensions, Text, Alert, TouchableOpacity } from 'react-native';
 import { Spinner } from 'native-base';
 import Header from '../components/Header';
-
 import InputComponent from '../components/Input';
 
 import DatePicker from 'react-native-datepicker';
@@ -14,6 +13,7 @@ export default function Login({ navigation }) {
     const [loading, setLoading] = useState(false);
     const t = navigation.getParam('titulo');
 
+    const [id] = useState(t.id);
     const [descricao, setDescricao] = useState(t.descricao);
     const [valor, setValor] = useState(t.valor);
     const [dataVencimento, setDataVencimento] = useState(t.dataVencimento);
@@ -53,6 +53,7 @@ export default function Login({ navigation }) {
             setSttsP(false);
             setCorSttsP('#484848');
         } else {
+            setStatus('Recebido');
             setSttsR(true);
             setCorSttsR('#F3F3F3');
 
@@ -76,6 +77,7 @@ export default function Login({ navigation }) {
             setSttsA(false);
             setCorSttsA('#484848');
         } else {
+            setStatus('Pendente');
             setSttsP(true);
             setCorSttsP('#F3F3F3');
 
@@ -99,6 +101,7 @@ export default function Login({ navigation }) {
             setSttsP(false);
             setCorSttsP('#484848');
         } else {
+            setStatus('Atrasado');
             setSttsA(true);
             setCorSttsA('#F3F3F3');
 
@@ -110,9 +113,9 @@ export default function Login({ navigation }) {
         }
     }
 
-    function quemEstaTrue() {
-        console.log(`Quem está true? Recebido: ${sttsR} - Pendente: ${sttsP} - Atrasado: ${sttsA}`);
-    }
+    function salvar() {
+        console.log(id + ' - ' + descricao + ' - ' + valor + ' - ' + dataVencimento + ' - ' + status);
+    };
 
     if (loading) {
         return (
@@ -123,20 +126,20 @@ export default function Login({ navigation }) {
         );
     } else {
         return (
-            <View style={styles.container} behavior="padding" enabled>
+            <View style={styles.container}>
 
-                <Header titulo={t.descricao} voltar salvar data={t} />
+                <Header titulo={descricao} voltar salvar onPressSalvar={salvar} data={t} />
 
                 <View style={styles.cardTitulo}>
 
                     <Text style={styles.textFix}>Descrição</Text>
-                    <InputComponent valor={descricao} autoCorrect={false} />
+                    <InputComponent valor={descricao} onChangeText={(d) => setDescricao(d)} autoCorrect={false} />
 
                     <Text style={styles.textFix}>Valor</Text>
-                    <InputComponent valor={valor} autoCorrect={false} />
+                    <InputComponent valor={valor} onChangeText={(v) => setValor(v)} autoCorrect={false} />
 
                     <Text style={styles.textFix}>Data de Vencimento</Text>
-                    <InputComponent valor={dataVencimento} autoCorrect={false} />
+                    <InputComponent valor={dataVencimento} onChangeText={(d) => setDataVencimento(d)} autoCorrect={false} />
 
                     <Text style={styles.textFix}>Status</Text>
 
@@ -164,12 +167,6 @@ export default function Login({ navigation }) {
 
                 </View>
 
-                {/*
-                <TouchableOpacity style={{ margin: 10 }} onPress={quemEstaTrue}>
-                    <Text style={{ fontSize: 40, color: '#F3F3F3', alignSelf: 'center' }}>Quem está TRUE ?</Text>
-                </TouchableOpacity>
-               */}
-
             </View >
         );
     }
@@ -183,10 +180,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#444'
     },
     cardTitulo: {
-        width: width - 20,
-        height: height - 250,
-        marginTop: 20,
-        margin: 5,
+        width: width - 30,
+        height: height - 200,
+        marginTop: 50,
         borderRadius: 2,
         backgroundColor: '#303030',
         alignSelf: 'center'

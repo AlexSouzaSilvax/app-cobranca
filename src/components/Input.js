@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, TextInput } from 'react-native';
 
-export default function Input({ valor, autoCorrect, autoCapitalize, keyboardType, placeholderTextColor, placeholder, secureTextEntry }) {    
-
-    const [ value, setValue ] = useState(valor);
+export default function Input({ valor, onChangeText, autoCorrect, autoCapitalize, keyboardType, placeholderTextColor, placeholder, secureTextEntry }) {    
 
     return (
         <View style={styles.cardInput}>
@@ -15,19 +13,14 @@ export default function Input({ valor, autoCorrect, autoCapitalize, keyboardType
                 keyboardType={keyboardType}
                 autoCapitalize={autoCapitalize}
                 autoCorrect={autoCorrect}
-                value={value}
-                onChangeText={(v) => setValue(v)}
+                value={valor}
+                onChangeText={onChangeText}
             />
         </View>
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingTop: 10,
-        backgroundColor: '#444444'
-    },
+const styles = StyleSheet.create({   
     input: {
         justifyContent: 'center',
         alignSelf: 'center',

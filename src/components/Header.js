@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Image, Alert } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Spinner } from 'native-base';
-import * as Font from 'expo-font';
 import iconUser from '../../assets/user.png'
 import iconVoltar from '../../assets/iconVoltar.png'
+import iconSalvar from '../../assets/iconSalvar.png'
+import iconSair from '../../assets/iconSair.png'
 
-function Header({ navigation, titulo, user, sair, voltar, salvar, data }) {
+function Header({ navigation, titulo, user, sair, voltar, salvar, data, onPressSalvar }) {
 
     const [t, setT] = useState(titulo);
     const [u] = useState(user);
@@ -26,7 +27,7 @@ function Header({ navigation, titulo, user, sair, voltar, salvar, data }) {
             <View style={styles.header}>
 
                 {u ?
-                    <View style={{ flex: 1 }}>
+                    <View>
                         <TouchableOpacity>
                             <Image source={iconUser} style={styles.iconUser} />
                         </TouchableOpacity>
@@ -46,15 +47,17 @@ function Header({ navigation, titulo, user, sair, voltar, salvar, data }) {
                 </View>
 
                 {e ?
-                    <View style={{ flex: 1 }}>
+                    <View>
                         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                            <Text style={styles.textSair}>X</Text>
+                            {/*<Text style={styles.textSair}>X</Text>*/}
+                            <Image source={iconSair} style={styles.iconSair} />
                         </TouchableOpacity>
                     </View>
                     : s ?
                         <View>
-                            <TouchableOpacity onPress={() => Alert.alert(data.descricao)}>
-                                <Text style={styles.textSalvar}>V</Text>
+                            <TouchableOpacity onPress={onPressSalvar}>
+                                {/*<Text style={styles.textSalvar}>V</Text>*/}
+                                <Image source={iconSalvar} style={styles.iconSalvar} />
                             </TouchableOpacity>
                         </View>
                         :
@@ -87,15 +90,30 @@ const styles = StyleSheet.create({
         marginTop: 3
     },
     iconUser: {
-        height: 32,
-        marginTop: 8,
+        height: 40,
+        width: 40,
+        marginTop: 3,
         alignSelf: 'flex-start',
-        marginStart: 12
+        marginStart: 8
     },
     iconVoltar: {
-        height: 30,
-        marginTop: 5,
-        alignSelf: 'flex-start'        
+        height: 47,
+        width: 47,
+        marginStart: 8,
+        alignSelf: 'flex-start'
+    },
+    iconSalvar: {
+        height: 47,
+        width: 47,
+        marginEnd: 8,
+        alignSelf: 'flex-end'
+    },
+    iconSair: {
+        marginTop: 3,
+        height: 40,
+        width: 40,
+        marginEnd: 8,
+        alignSelf: 'flex-end'
     },
     textSair: {
         marginEnd: 12,
@@ -110,8 +128,8 @@ const styles = StyleSheet.create({
         fontSize: 40,
         paddingEnd: 14,
         marginTop: -5,
-        alignSelf: 'flex-end',                
-        fontFamily: 'Chewy',        
+        alignSelf: 'flex-end',
+        fontFamily: 'Chewy',
     }
 });
 
