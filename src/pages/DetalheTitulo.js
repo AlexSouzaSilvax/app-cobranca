@@ -129,7 +129,7 @@ export default function Login({ navigation }) {
         return (
             <View style={styles.container}>
 
-                <Header titulo={descricao} voltar salvar onPressSalvar={salvar} data={t} />
+                <Header titulo={descricao} tamanhoTitulo={20} voltar salvar onPressSalvar={salvar} data={t} />
 
                 <View style={styles.cardTitulo}>
 

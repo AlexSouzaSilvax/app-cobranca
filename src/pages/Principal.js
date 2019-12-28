@@ -8,23 +8,23 @@ export default function Principal({ navigation }) {
 
     const [titulos] = useState([
         {
-            id: '0', tela: 'DetalheTitulo', dataVencimento: '24/12/2022', descricao: 'Casa do João', status: 'Recebido', valor: '980'
+            id: '0', tela: 'DetalheTitulo', dataVencimento: '24/12/2022', descricao: 'Casa do Alex', status: 'Recebido', valor: '980'
         },
         {
-            id: '1', tela: 'DetalheTitulo', dataVencimento: '12/12/2020', descricao: 'Mansão Conde De Bonfim', status: 'Pendente', valor: '949.90'
+            id: '1', tela: 'DetalheTitulo', dataVencimento: '12/12/2020', descricao: 'Mansão Comendador Soares', status: 'Pendente', valor: '949.90'
         },
         {
             id: '2', tela: 'DetalheTitulo', dataVencimento: '19/05/2019',  descricao: 'Sítio da Paz', status: 'Atrasado', valor: '150'
         },
         {
-            id: '3', tela: 'DetalheTitulo', dataVencimento: '03/03/2018',  descricao: 'Apartamento 103', status: 'Recebido', valor: '3600'
+            id: '3', tela: 'DetalheTitulo', dataVencimento: '03/03/2018',  descricao: 'Sala 101', status: 'Recebido', valor: '3600'
         }
     ]);
 
     return (
         <View style={styles.container}>
 
-            <Header titulo={"Cobrança"} user sair />
+            <Header titulo={"Títulos"} tamanhoTitulo={28} user sair />
 
             <FlatList
                 style={styles.viewCardTitulos}

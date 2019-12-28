@@ -1,37 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { Spinner } from 'native-base';
 import * as Font from 'expo-font';
+
 import Routes from './src/routes';
 
-export default class App extends React.Component {
+export default function App() {
 
-  state = {
-    loadFont: false
-  };
+  const [loading, setLoading] = useState(true);
 
-  async componentDidMount() {
+  useEffect(() => {
 
-    await Font.loadAsync({
-      Chewy: require('./assets/fonts/Chewy.ttf')
-    });
-
-    this.setState({ loadFont: true });
-  }
-
-  render() {
-
-    if (this.state.loadFont) {
-      return (
-        <Routes />
-      );
-    } else {
-      return (
-        <View style={styles.container}>
-          <Spinner color='#F3F3F3' />
-        </View>
-      );
+    async function fetchFont() {
+      await Font.loadAsync({
+        Chewy: require('./assets/fonts/Chewy.ttf')
+      });
     }
+
+    fetchFont();
+    setLoading(false);
+  })
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Spinner color='#F3F3F3' />
+        <Text style={styles.textLoading}>Carregando...</Text>
+      </View>
+    );
+  } else {
+    return <Routes />
   }
 
 }
@@ -46,9 +44,9 @@ const styles = StyleSheet.create({
   textLoading: {
     paddingTop: 15,
     fontSize: 20,
-    fontFamily: 'Chewy',
     color: '#F3F3F3',
     alignItems: 'center',
     justifyContent: 'center'
   }
 });
+

@@ -7,7 +7,7 @@ import iconVoltar from '../../assets/iconVoltar.png'
 import iconSalvar from '../../assets/iconSalvar.png'
 import iconSair from '../../assets/iconSair.png'
 
-function Header({ navigation, titulo, user, sair, voltar, salvar, data, onPressSalvar }) {
+function Header({ navigation, titulo, user, sair, voltar, salvar, data, onPressSalvar, tamanhoTitulo }) {
 
     const [t, setT] = useState(titulo);
     const [u] = useState(user);
@@ -42,8 +42,8 @@ function Header({ navigation, titulo, user, sair, voltar, salvar, data, onPressS
                         <View style={{ flex: 1 }} />
                 }
 
-                <View style={{ flex: 2 }}>
-                    <Text style={styles.titulo}>{t}</Text>
+                <View style={{ flex: 2, paddingTop: 5 }}>
+                    <Text style={[styles.titulo, { fontSize: tamanhoTitulo }]}>{t}</Text>
                 </View>
 
                 {e ?
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     titulo: {
         alignSelf: 'center',
         justifyContent: 'center',
-        fontSize: 28,
+        //fontSize: //28,
         color: '#F3F3F3',
         fontFamily: 'Chewy',
         marginTop: 3

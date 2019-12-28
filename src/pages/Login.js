@@ -5,8 +5,12 @@ import * as Font from 'expo-font';
 import axios from 'axios';
 import { url, sleep } from '../api';
 
+import InputComponent from '../components/Input';
+
 import logo from '../../assets/icon.png';
-import Input from '../components/Input';
+import iconUser from '../../assets/user.png';
+import iconPassword from '../../assets/iconPassword.png';
+
 
 export default function Login({ navigation }) {
 
@@ -16,7 +20,7 @@ export default function Login({ navigation }) {
     const [senha, setSenha] = useState('');
     const [btnLoading, setBtnLoading] = useState(false);
     const [textBtnLogar, setTextBtnLogar] = useState('Acessar');
-    
+
     if (loading) {
         return (
             <View style={styles.container}>
@@ -34,22 +38,26 @@ export default function Login({ navigation }) {
                 <View style={styles.form}>
 
                     <Text style={[styles.label, { paddingTop: 30 }]}>EMAIL</Text>
-                    <Input 
+                    <InputComponent
+                        icon={iconUser}
                         placeholder="Seu e-mail"
                         placeholderTextColor="#565656"
                         keyboardType="email-address" // especifica que é um input de e-mail, teclado de e-mail com @ incluso.
                         autoCapitalize="none" // não permitir que já se inicie texto com caixa alta.
                         autoCorrect={false} //não permitir fazer correção do texto      
-                        value={email}
+                        valor={email}
+                        onChangeText={(e) => setEmail(e)}
                     />
 
                     <Text style={styles.label}>SENHA</Text>
-                    <Input                        
+                    <InputComponent
+                        icon={iconPassword}
                         placeholder="Sua senha"
                         placeholderTextColor="#565656"
                         autoCorrect={false} //não permitir fazer correção do texto
                         secureTextEntry={true}
-                        value={senha}                        
+                        valor={senha}
+                        onChangeText={(s) => setSenha(s)}
                     />
 
                     <TouchableOpacity style={styles.button} onPress={() => validacaoLogin()}>
@@ -90,7 +98,7 @@ const styles = StyleSheet.create({
         color: '#aaaaaa',
         marginBottom: 8,
     },
-    input: {        
+    input: {
         backgroundColor: '#363636',
         paddingHorizontal: 20,
         fontFamily: 'Chewy',
