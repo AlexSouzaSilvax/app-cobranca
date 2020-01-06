@@ -6,20 +6,20 @@ import * as Font from "expo-font";
 import Routes from "./src/routes";
 
 export default function App() {
-  //const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
-  /*useEffect(() => {
+  useEffect(() => {
     async function fetchFont() {
       await Font.loadAsync({
         Chewy: require("./assets/fonts/Chewy.ttf")
       });
+      setLoading(false);
     }
 
     fetchFont();
-    setLoading(false);
-  });*/
+  });
 
-  /*if (loading) {
+  if (loading) {
     return (
       <View style={styles.container}>
         <Spinner color="#F3F3F3" />
@@ -28,9 +28,7 @@ export default function App() {
     );
   } else {
     return <Routes />;
-  }*/
-
-  return <Routes />;
+  }
 }
 
 const styles = StyleSheet.create({

@@ -2,19 +2,17 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
-  TextInput,
   AsyncStorage,
-  Alert,
   Image,
   Text,
   TouchableOpacity,
   ToastAndroid,
+  Alert,
   KeyboardAvoidingView
 } from "react-native";
 import { Spinner } from "native-base";
 import * as Font from "expo-font";
-import axios from "axios";
-import { url, sleep } from "../api";
+import { api } from "../api";
 
 import InputComponent from "../components/Input";
 
@@ -23,23 +21,21 @@ import iconUser from "../../assets/user.png";
 import iconPassword from "../../assets/iconPassword.png";
 
 export default function Login({ navigation }) {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+  const [login, setLogin] = useState("alex.silva");
+  const [senha, setSenha] = useState("@lex");
   const [btnLoading, setBtnLoading] = useState(false);
   const [textBtnLogar, setTextBtnLogar] = useState("Acessar");
 
   useEffect(() => {
-    async function fetchFont() {
-      await Font.loadAsync({
-        Chewy: require("../../assets/fonts/Chewy.ttf")
-      });
-    }
-
-    fetchFont();
-    setLoading(false);
-  });
+    AsyncStorage.getItem("idUsuario").then(idUsuario => {
+      if (idUsuario) {
+        navigation.navigate("Principal");
+        //console.log("ja existe login feito");
+      }
+    });
+  }, []);
 
   if (loading) {
     return (
@@ -55,16 +51,16 @@ export default function Login({ navigation }) {
         <Text style={styles.titulo}>Cobrança</Text>
 
         <View style={styles.form}>
-          <Text style={[styles.label, { paddingTop: 30 }]}>EMAIL</Text>
+          <Text style={[styles.label, { paddingTop: 30 }]}>LOGIN</Text>
           <InputComponent
             icon={iconUser}
-            placeholder="Seu e-mail"
+            placeholder="Seu login"
             placeholderTextColor="#565656"
-            keyboardType="email-address" // especifica que é um input de e-mail, teclado de e-mail com @ incluso.
+            //keyboardType="email-address" // especifica que é um input de e-mail, teclado de e-mail com @ incluso.
             autoCapitalize="none" // não permitir que já se inicie texto com caixa alta.
             autoCorrect={false} //não permitir fazer correção do texto
-            valor={email}
-            onChangeText={e => setEmail(e)}
+            valor={login}
+            onChangeText={e => setLogin(e)}
           />
 
           <Text style={styles.label}>SENHA</Text>
@@ -78,10 +74,7 @@ export default function Login({ navigation }) {
             onChangeText={s => setSenha(s)}
           />
 
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => validacaoLogin()}
-          >
+          <TouchableOpacity style={styles.button} onPress={validacaoLogin}>
             {btnLoading ? (
               <Spinner color="#F3F3F3" />
             ) : (
@@ -94,7 +87,43 @@ export default function Login({ navigation }) {
   }
 
   async function validacaoLogin() {
-    navigation.navigate("Principal");
+    setBtnLoading(true);
+    if (!login || !senha) {
+      console.log("Login/Senha é obrigatorio");
+      setBtnLoading(false);
+      setTextBtnLogar("Login/Senha é obrigatório");
+      //entrar um toast
+    } else {
+      await api
+        .post("/usuarios/buscar", { login, senha })
+        .then(response => {
+          console.log(response.data);
+          setData(response.data);
+          setBtnLoading(false);
+        })
+        .catch(error => {
+          //console.error(error);
+          setBtnLoading(false);
+          Alert.alert(`Serviço indisponível`);
+          //setTextBtnLogar("Serviço indisponível");
+        });
+
+      if (data == null) {
+        console.log("Usuário não encontrado");
+        setBtnLoading(false);
+        setTextBtnLogar("Acessar");
+      } else {
+        if (login == data.login && senha == data.senha) {
+          AsyncStorage.setItem("idUsuario", data._id);
+          navigation.navigate("Principal");
+          //console.log("Bem vindo: " + data[0].login);
+          //setBtnLoading(false);
+        } else {
+          console.log("usuario ou senha inválidos.");
+          setBtnLoading(false);
+        }
+      }
+    }
   }
 }
 
