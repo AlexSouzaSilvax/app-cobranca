@@ -143,10 +143,11 @@ export default function Login({ navigation }) {
         }
 
         //console.log(response.statusText);
-        console.log(response.data);
+        //console.log(response.data);
       })
       .catch(error => {
-        console.log(error);
+        //console.log(error);
+        Alert.alert(`Serviço indisponível`);
       });
 
     /*console.log(
@@ -175,7 +176,7 @@ export default function Login({ navigation }) {
         <Header
           titulo={descricao}
           tamanhoTitulo={20}
-          voltar
+          voltar={"Principal"}
           salvar
           onPressSalvar={salvar}
           data={t}

@@ -1,15 +1,17 @@
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
 
-import Login from './pages/Login';
-import Principal from './pages/Principal';
-import DetalheTitulo from './pages/DetalheTitulo';
+import Login from "./pages/Login";
+import Cadastrar from "./pages/Cadastrar";
+import Principal from "./pages/Principal";
+import DetalheTitulo from "./pages/DetalheTitulo";
 
 const Routes = createAppContainer(
-    createSwitchNavigator({
-        Login,
-        Principal,
-        DetalheTitulo,
-    })
+  createSwitchNavigator({
+    Login,
+    Cadastrar,
+    Principal,
+    DetalheTitulo
+  })
 );
 
 export default Routes;

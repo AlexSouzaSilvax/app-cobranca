@@ -23,8 +23,8 @@ import iconPassword from "../../assets/iconPassword.png";
 export default function Login({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
-  const [login, setLogin] = useState("alex.silva");
-  const [senha, setSenha] = useState("@lexj");
+  const [login, setLogin] = useState("t");
+  const [senha, setSenha] = useState("t");
   const [btnLoading, setBtnLoading] = useState(false);
   const [textBtnLogar, setTextBtnLogar] = useState("Acessar");
 
@@ -82,14 +82,12 @@ export default function Login({ navigation }) {
             )}
           </TouchableOpacity>
 
-          {/*
           <TouchableOpacity
             style={[styles.button, styles.buttonCadastrar]}
             onPress={cadastrar}
           >
             <Text style={styles.buttonText}>Cadastrar</Text>
           </TouchableOpacity>
-          */}
         </View>
       </KeyboardAvoidingView>
     );
@@ -139,7 +137,8 @@ export default function Login({ navigation }) {
   }
 
   function cadastrar() {
-    alert("Tela de se cadastrar em desenvolvimento.");
+    //Alert.alert("Tela de se cadastrar em desenvolvimento.");
+    navigation.navigate("Cadastrar");
   }
 }
 

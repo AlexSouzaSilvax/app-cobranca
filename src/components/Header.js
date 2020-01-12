@@ -50,7 +50,7 @@ function Header({
           </View>
         ) : v ? (
           <View>
-            <TouchableOpacity onPress={() => navigation.navigate("Principal")}>
+            <TouchableOpacity onPress={() => navigation.navigate(voltar)}>
               <Image source={iconVoltar} style={styles.iconVoltar} />
             </TouchableOpacity>
           </View>
