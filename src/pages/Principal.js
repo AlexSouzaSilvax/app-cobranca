@@ -4,8 +4,9 @@ import {
   View,
   FlatList,
   StyleSheet,
-  Platform,
-  Text
+  AsyncStorage,
+  Text,
+  Alert
 } from "react-native";
 import { Spinner } from "native-base";
 import ActionButton from "react-native-action-button";
@@ -17,18 +18,20 @@ export default function Principal({ navigation }) {
   const [titulos, setTitulos] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  async function getTitulos() {
-    await api.get("/titulos").then(response => {
-      // console.log(response.data);
-      setTitulos(response.data);
-      setLoading(false);
-      //console.log("ja foi carai");
-    });
-  }
-
   useEffect(() => {
     getTitulos();
   }, []);
+
+  async function getTitulos() {
+    await api
+      .post("/titulos", { _idUsuario: "5e0fdd191c9d440000364a50" })
+      .then(response => {
+        console.log(response.data);
+        setTitulos(response.data);
+        setLoading(false);
+        //console.log("ja foi carai");
+      });
+  }
 
   return (
     <View style={styles.container}>
@@ -39,7 +42,7 @@ export default function Principal({ navigation }) {
           <Spinner color="#F3F3F3" />
           <Text style={styles.textLoading}>Carregando...</Text>
         </View>
-      ) : (
+      ) : titulos ? (
         <FlatList
           style={styles.viewCardTitulos}
           data={titulos}
@@ -49,6 +52,10 @@ export default function Principal({ navigation }) {
           )}
           //refreshControl={<RefreshControl getTitulos />}
         />
+      ) : (
+        <View style={styles.container}>
+          <Text style={styles.textLoading}>Nenhum título encontrado...</Text>
+        </View>
       )}
 
       <ActionButton

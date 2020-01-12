@@ -5,7 +5,8 @@ import {
   Dimensions,
   Text,
   Alert,
-  TouchableOpacity
+  TouchableOpacity,
+  AsyncStorage
 } from "react-native";
 import { Spinner } from "native-base";
 import Header from "../components/Header";
@@ -36,6 +37,10 @@ export default function Login({ navigation }) {
   const [corSttsA, setCorSttsA] = useState("#484848");
 
   useEffect(() => {
+    if (!status) {
+      setStatus("Recebido");
+    }
+
     if (status == "Recebido") {
       setSttsR(true);
       setCorSttsR("#F3F3F3");
@@ -124,12 +129,21 @@ export default function Login({ navigation }) {
         descricao,
         valor,
         dataVenc,
-        status
+        status,
+        usuario: "5e0fdd191c9d440000364a50"
       })
       .then(response => {
         //console.log(response.status);
+
+        if (response.status == 200) {
+          //console.log(idUsuario);
+          Alert.alert("Salvo com sucesso.");
+        } else {
+          Alert.alert("Falha ao salvar.");
+        }
+
         //console.log(response.statusText);
-        //console.log(response.data);
+        console.log(response.data);
       })
       .catch(error => {
         console.log(error);

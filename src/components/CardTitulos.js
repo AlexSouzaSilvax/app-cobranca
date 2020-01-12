@@ -4,7 +4,7 @@ import * as Font from "expo-font";
 import { Card, CardItem, Left, Body, Spinner } from "native-base";
 import { withNavigation } from "react-navigation"; // para usar a navegacao de routes por components
 
-function CardTitulos({ navigation, titulo }) {
+function CardTitulos({ navigation, titulo, _idUsuario }) {
   const [loading, setLoading] = useState(false);
   const [corSttsR, setCorSttsR] = useState();
   const [corSttsP, setCorSttsP] = useState();
@@ -32,7 +32,9 @@ function CardTitulos({ navigation, titulo }) {
   } else {
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate("DetalheTitulo", { titulo })}
+        onPress={() =>
+          navigation.navigate("DetalheTitulo", { titulo, _idUsuario })
+        }
       >
         <View style={styles.card}>
           <View style={{ flexDirection: "row", justifyContent: "center" }}>

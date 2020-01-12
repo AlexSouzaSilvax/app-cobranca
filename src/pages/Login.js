@@ -24,7 +24,7 @@ export default function Login({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [login, setLogin] = useState("alex.silva");
-  const [senha, setSenha] = useState("@lex");
+  const [senha, setSenha] = useState("@lexj");
   const [btnLoading, setBtnLoading] = useState(false);
   const [textBtnLogar, setTextBtnLogar] = useState("Acessar");
 
@@ -81,6 +81,15 @@ export default function Login({ navigation }) {
               <Text style={styles.buttonText}>{textBtnLogar}</Text>
             )}
           </TouchableOpacity>
+
+          {/*
+          <TouchableOpacity
+            style={[styles.button, styles.buttonCadastrar]}
+            onPress={cadastrar}
+          >
+            <Text style={styles.buttonText}>Cadastrar</Text>
+          </TouchableOpacity>
+          */}
         </View>
       </KeyboardAvoidingView>
     );
@@ -89,41 +98,48 @@ export default function Login({ navigation }) {
   async function validacaoLogin() {
     setBtnLoading(true);
     if (!login || !senha) {
-      console.log("Login/Senha é obrigatorio");
       setBtnLoading(false);
       setTextBtnLogar("Login/Senha é obrigatório");
-      //entrar um toast
     } else {
       await api
         .post("/usuarios/buscar", { login, senha })
         .then(response => {
-          console.log(response.data);
-          setData(response.data);
+          //console.log(response.data);
           setBtnLoading(false);
+
+          /*if (response.status == 404 || response.status == 500) {
+            setBtnLoading(false);
+            Alert.alert(`Serviço indisponível`);
+          }*/
+
+          const dados = response.data;
+
+          if (dados == null || dados == []) {
+            setBtnLoading(false);
+            Alert.alert("Login/Senha inválidos");
+            //setTextBtnLogar("Login/Senha inválidos");
+          } else {
+            if (login == dados.login && senha == dados.senha) {
+              AsyncStorage.setItem("idUsuario", dados._id);
+              navigation.navigate("Principal");
+              //console.log("Bem vindo: " + data[0].login);
+              //setBtnLoading(false);
+            } else {
+              console.log("usuario ou senha inválidos.");
+              setBtnLoading(false);
+            }
+          }
         })
         .catch(error => {
-          //console.error(error);
+          //console.log("ERROR: " + error.message);
           setBtnLoading(false);
           Alert.alert(`Serviço indisponível`);
-          //setTextBtnLogar("Serviço indisponível");
         });
-
-      if (data == null) {
-        console.log("Usuário não encontrado");
-        setBtnLoading(false);
-        setTextBtnLogar("Acessar");
-      } else {
-        if (login == data.login && senha == data.senha) {
-          AsyncStorage.setItem("idUsuario", data._id);
-          navigation.navigate("Principal");
-          //console.log("Bem vindo: " + data[0].login);
-          //setBtnLoading(false);
-        } else {
-          console.log("usuario ou senha inválidos.");
-          setBtnLoading(false);
-        }
-      }
     }
+  }
+
+  function cadastrar() {
+    alert("Tela de se cadastrar em desenvolvimento.");
   }
 }
 
@@ -162,6 +178,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 2
+  },
+  buttonCadastrar: {
+    marginTop: 30,
+    height: 50
   },
   buttonText: {
     color: "#F3F3F3",
