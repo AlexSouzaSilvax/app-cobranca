@@ -22,8 +22,8 @@ import iconPassword from "../../assets/iconPassword.png";
 
 export default function Login({ navigation }) {
   const [loading, setLoading] = useState(false);
-  const [login, setLogin] = useState("t");
-  const [senha, setSenha] = useState("t");
+  const [login, setLogin] = useState("");
+  const [senha, setSenha] = useState("");
   const [btnLoading, setBtnLoading] = useState(false);
   const [textBtnLogar, setTextBtnLogar] = useState("Acessar");
 
