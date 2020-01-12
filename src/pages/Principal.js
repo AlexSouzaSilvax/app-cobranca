@@ -4,7 +4,6 @@ import {
   View,
   FlatList,
   StyleSheet,
-  AsyncStorage,
   Text,
   Alert
 } from "react-native";
@@ -12,7 +11,7 @@ import { Spinner } from "native-base";
 import ActionButton from "react-native-action-button";
 import Header from "../components/Header";
 import CardTitulos from "../components/CardTitulos";
-import { api } from "../api";
+import { api, helper } from "../api";
 
 export default function Principal({ navigation }) {
   const [titulos, setTitulos] = useState([]);
@@ -23,14 +22,20 @@ export default function Principal({ navigation }) {
   }, []);
 
   async function getTitulos() {
-    await api
-      .post("/titulos", { _idUsuario: "5e0fdd191c9d440000364a50" })
-      .then(response => {
-        console.log(response.data);
-        setTitulos(response.data);
-        setLoading(false);
-        //console.log("ja foi carai");
-      });
+    helper.getItem("idUsuario").then(id => {
+      //console.log(id);
+      api
+        .post("/titulos", { _idUsuario: id }) //"5e0fdd191c9d440000364a50"
+        .then(response => {
+          //console.log(response.data);
+          setTitulos(response.data);
+          setLoading(false);
+          //console.log("ja foi carai");
+        })
+        .catch(error => {
+          Alert.alert(`Serviço indisponível`);
+        });
+    });
   }
 
   return (

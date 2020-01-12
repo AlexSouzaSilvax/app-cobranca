@@ -13,7 +13,7 @@ import Header from "../components/Header";
 import InputComponent from "../components/Input";
 
 import DatePicker from "react-native-datepicker";
-import { api } from "../api";
+import { api, helper } from "../api";
 
 const { width, height } = Dimensions.get("window");
 
@@ -37,10 +37,6 @@ export default function Login({ navigation }) {
   const [corSttsA, setCorSttsA] = useState("#484848");
 
   useEffect(() => {
-    if (!status) {
-      setStatus("Recebido");
-    }
-
     if (status == "Recebido") {
       setSttsR(true);
       setCorSttsR("#F3F3F3");
@@ -123,44 +119,28 @@ export default function Login({ navigation }) {
   }
 
   async function salvar() {
-    await api
-      .post("/titulos/atualizar", {
-        _id,
-        descricao,
-        valor,
-        dataVenc,
-        status,
-        usuario: "5e0fdd191c9d440000364a50"
-      })
-      .then(response => {
-        //console.log(response.status);
-
-        if (response.status == 200) {
-          //console.log(idUsuario);
-          Alert.alert("Salvo com sucesso.");
-        } else {
-          Alert.alert("Falha ao salvar.");
-        }
-
-        //console.log(response.statusText);
-        //console.log(response.data);
-      })
-      .catch(error => {
-        //console.log(error);
-        Alert.alert(`Serviço indisponível`);
-      });
-
-    /*console.log(
-      _id +
-        " - " +
-        descricao +
-        " - " +
-        valor +
-        " - " +
-        dataVenc +
-        " - " +
-        status
-    );*/
+    helper.getItem("idUsuario").then(id => {
+      api
+        .post("/titulos/atualizar", {
+          _id,
+          descricao,
+          valor,
+          dataVenc,
+          status,
+          usuario: id
+        })
+        .then(response => {
+          if (response.status == 200) {
+            Alert.alert("Salvo com sucesso.");
+            navigation.navigate("Principal");
+          } else {
+            Alert.alert("Falha ao salvar.");
+          }
+        })
+        .catch(error => {
+          Alert.alert(`Serviço indisponível`);
+        });
+    });
   }
 
   if (loading) {
@@ -174,8 +154,8 @@ export default function Login({ navigation }) {
     return (
       <View style={styles.container}>
         <Header
-          titulo={descricao}
-          tamanhoTitulo={20}
+          titulo={descricao ? descricao : "Novo Título"}
+          tamanhoTitulo={25}
           voltar={"Principal"}
           salvar
           onPressSalvar={salvar}
@@ -188,13 +168,14 @@ export default function Login({ navigation }) {
             valor={descricao}
             onChangeText={d => setDescricao(d)}
             autoCorrect={false}
+            placeholder={"Descrição"}
           />
-
           <Text style={styles.textFix}>Valor</Text>
           <InputComponent
             valor={valor}
             onChangeText={v => setValor(v)}
             autoCorrect={false}
+            placeholder={"R$ Valor"}
           />
 
           <Text style={styles.textFix}>Data de Vencimento</Text>
@@ -221,9 +202,7 @@ export default function Login({ navigation }) {
               }
             }}
           />
-
           <Text style={styles.textFix}>Status</Text>
-
           <View style={styles.viewStatus}>
             <TouchableOpacity
               style={{ flex: 1, padding: 10 }}

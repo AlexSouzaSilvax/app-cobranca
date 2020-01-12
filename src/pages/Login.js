@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { Spinner } from "native-base";
 import * as Font from "expo-font";
-import { api } from "../api";
+import { api, helper } from "../api";
 
 import InputComponent from "../components/Input";
 
@@ -22,17 +22,21 @@ import iconPassword from "../../assets/iconPassword.png";
 
 export default function Login({ navigation }) {
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([]);
   const [login, setLogin] = useState("t");
   const [senha, setSenha] = useState("t");
   const [btnLoading, setBtnLoading] = useState(false);
   const [textBtnLogar, setTextBtnLogar] = useState("Acessar");
 
   useEffect(() => {
-    AsyncStorage.getItem("idUsuario").then(idUsuario => {
+    /* AsyncStorage.getItem("idUsuario").then(idUsuario => {
       if (idUsuario) {
         navigation.navigate("Principal");
         //console.log("ja existe login feito");
+      }
+    });*/
+    helper.getItem("idUsuario").then(idUsuario => {
+      if (idUsuario) {
+        navigation.navigate("Principal");
       }
     });
   }, []);
@@ -122,9 +126,6 @@ export default function Login({ navigation }) {
               navigation.navigate("Principal");
               //console.log("Bem vindo: " + data[0].login);
               //setBtnLoading(false);
-            } else {
-              console.log("usuario ou senha inválidos.");
-              setBtnLoading(false);
             }
           }
         })

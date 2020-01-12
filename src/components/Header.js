@@ -22,7 +22,6 @@ function Header({
   sair,
   voltar,
   salvar,
-  data,
   onPressSalvar,
   tamanhoTitulo
 }) {

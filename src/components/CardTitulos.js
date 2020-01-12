@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
-import * as Font from "expo-font";
-import { Card, CardItem, Left, Body, Spinner } from "native-base";
+import { Spinner } from "native-base";
 import { withNavigation } from "react-navigation"; // para usar a navegacao de routes por components
+import { helper } from "../api";
 
 function CardTitulos({ navigation, titulo, _idUsuario }) {
   const [loading, setLoading] = useState(false);
@@ -57,11 +57,15 @@ function CardTitulos({ navigation, titulo, _idUsuario }) {
             <View
               style={{ flex: 1, alignSelf: "flex-start", paddingStart: 30 }}
             >
-              <Text style={styles.textVariavel}>{titulo.valor}</Text>
+              <Text style={styles.textVariavel}>
+                {helper.numberToReal(titulo.valor)}
+              </Text>
             </View>
 
             <View style={{ flex: 1, alignSelf: "flex-end", marginLeft: 140 }}>
-              <Text style={styles.textVariavel}>{titulo.dataVenc}</Text>
+              <Text style={styles.textVariavel}>
+                {helper.formatData(titulo.dataVenc)}
+              </Text>
             </View>
           </View>
 
