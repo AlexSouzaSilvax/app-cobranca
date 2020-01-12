@@ -6,12 +6,10 @@ import {
   Image,
   Text,
   TouchableOpacity,
-  ToastAndroid,
   Alert,
   KeyboardAvoidingView
 } from "react-native";
 import { Spinner } from "native-base";
-import * as Font from "expo-font";
 import { api, helper } from "../api";
 
 import InputComponent from "../components/Input";
@@ -22,18 +20,12 @@ import iconPassword from "../../assets/iconPassword.png";
 
 export default function Login({ navigation }) {
   const [loading, setLoading] = useState(false);
-  const [login, setLogin] = useState("");
-  const [senha, setSenha] = useState("");
+  const [login, setLogin] = useState("alex.silva");
+  const [senha, setSenha] = useState("@lex");
   const [btnLoading, setBtnLoading] = useState(false);
   const [textBtnLogar, setTextBtnLogar] = useState("Acessar");
 
   useEffect(() => {
-    /* AsyncStorage.getItem("idUsuario").then(idUsuario => {
-      if (idUsuario) {
-        navigation.navigate("Principal");
-        //console.log("ja existe login feito");
-      }
-    });*/
     helper.getItem("idUsuario").then(idUsuario => {
       if (idUsuario) {
         navigation.navigate("Principal");
@@ -55,7 +47,7 @@ export default function Login({ navigation }) {
         <Text style={styles.titulo}>Cobrança</Text>
 
         <View style={styles.form}>
-          <Text style={[styles.label, { paddingTop: 30 }]}>LOGIN</Text>
+          <Text style={styles.label}>LOGIN</Text>
           <InputComponent
             icon={iconUser}
             placeholder="Seu login"
@@ -87,10 +79,25 @@ export default function Login({ navigation }) {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.button, styles.buttonCadastrar]}
-            onPress={cadastrar}
+            style={styles.buttonEsqueciSenha}
+            onPress={esqueciSenha}
           >
-            <Text style={styles.buttonText}>Cadastrar</Text>
+            <Text style={styles.buttonTextEsqueciSenha}>
+              Esqueceu sua senha ?
+            </Text>
+          </TouchableOpacity>
+
+          <View
+            style={{
+              borderWidth: 1,
+              borderColor: "#565656",
+              width: 300,
+              alignSelf: "center"
+            }}
+          />
+
+          <TouchableOpacity style={styles.buttonCadastrar} onPress={cadastrar}>
+            <Text style={styles.buttonTextCadastrar}>Cadastrar-se</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -101,7 +108,8 @@ export default function Login({ navigation }) {
     setBtnLoading(true);
     if (!login || !senha) {
       setBtnLoading(false);
-      setTextBtnLogar("Login/Senha é obrigatório");
+      //setTextBtnLogar("Login/Senha é obrigatório");
+      Alert.alert("Login/Senha é obrigatório");
     } else {
       await api
         .post("/usuarios/buscar", { login, senha })
@@ -138,8 +146,12 @@ export default function Login({ navigation }) {
   }
 
   function cadastrar() {
-    //Alert.alert("Tela de se cadastrar em desenvolvimento.");
     navigation.navigate("Cadastrar");
+  }
+
+  function esqueciSenha() {
+    //Alert.alert("Função/Tela em desenvolvimento.");
+    navigation.navigate("EsqueciSenha");
   }
 }
 
@@ -180,13 +192,32 @@ const styles = StyleSheet.create({
     borderRadius: 2
   },
   buttonCadastrar: {
-    marginTop: 30,
-    height: 50
+    padding: 8,
+    backgroundColor: "transparent",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  buttonEsqueciSenha: {
+    marginTop: 5,
+    padding: 8,
+    backgroundColor: "transparent",
+    justifyContent: "center",
+    alignItems: "center"
   },
   buttonText: {
     color: "#F3F3F3",
     fontFamily: "Chewy",
     fontSize: 28
+  },
+  buttonTextCadastrar: {
+    color: "#aaaaaa",
+    fontFamily: "Chewy",
+    fontSize: 25
+  },
+  buttonTextEsqueciSenha: {
+    color: "#aaaaaa",
+    fontFamily: "Chewy",
+    fontSize: 20
   },
   logo: {
     width: 150,

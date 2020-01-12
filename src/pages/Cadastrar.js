@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Dimensions, Text, Alert } from "react-native";
-import { Spinner } from "native-base";
 import Header from "../components/Header";
 import InputComponent from "../components/Input";
 
@@ -62,10 +61,8 @@ export default function Cadastrar({ navigation }) {
   );
 
   async function salvar() {
-    //Alert.alert("Implementar metodo de salvar");
-
     await api
-      .post("http://alex-api-cobranca.herokuapp.com/usuarios/criar", {
+      .post("/usuarios/criar", {
         email,
         login,
         senha
@@ -92,7 +89,7 @@ const styles = StyleSheet.create({
   },
   cardTitulo: {
     width: width - 30,
-    height: height - 450,
+    height: height - 370,
     marginTop: 25,
     borderRadius: 8,
     backgroundColor: "#303030",
