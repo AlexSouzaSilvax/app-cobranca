@@ -68,7 +68,7 @@ export default function Cadastrar({ navigation }) {
         senha
       })
       .then(response => {
-        console.log(response.data);
+        //console.log(response.data);
 
         if (response.status == 200) {
           Alert.alert("Cadastrado com sucesso.");

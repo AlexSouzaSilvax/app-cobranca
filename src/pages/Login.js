@@ -20,8 +20,8 @@ import iconPassword from "../../assets/iconPassword.png";
 
 export default function Login({ navigation }) {
   const [loading, setLoading] = useState(false);
-  const [login, setLogin] = useState("alex.silva");
-  const [senha, setSenha] = useState("@lex");
+  const [login, setLogin] = useState("");
+  const [senha, setSenha] = useState("");
   const [btnLoading, setBtnLoading] = useState(false);
   const [textBtnLogar, setTextBtnLogar] = useState("Acessar");
 
@@ -87,14 +87,7 @@ export default function Login({ navigation }) {
             </Text>
           </TouchableOpacity>
 
-          <View
-            style={{
-              borderWidth: 1,
-              borderColor: "#565656",
-              width: 300,
-              alignSelf: "center"
-            }}
-          />
+          <View style={styles.linha} />
 
           <TouchableOpacity style={styles.buttonCadastrar} onPress={cadastrar}>
             <Text style={styles.buttonTextCadastrar}>Cadastrar-se</Text>
@@ -239,5 +232,11 @@ const styles = StyleSheet.create({
     color: "#F3F3F3",
     alignItems: "center",
     justifyContent: "center"
+  },
+  linha: {
+    borderWidth: 1,
+    borderColor: "#777777",
+    width: 300,
+    alignSelf: "center"
   }
 });

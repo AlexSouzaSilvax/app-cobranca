@@ -22,6 +22,7 @@ export default function Principal({ navigation }) {
   }, []);
 
   async function getTitulos() {
+    setLoading(true);
     helper.getItem("idUsuario").then(id => {
       //console.log(id);
       api
@@ -55,7 +56,14 @@ export default function Principal({ navigation }) {
           renderItem={({ item }) => (
             <CardTitulos key={item._id} titulo={item} />
           )}
-          //refreshControl={<RefreshControl getTitulos />}
+          refreshControl={
+            <RefreshControl refreshing={loading} onRefresh={getTitulos} />
+          }
+          ListEmptyComponent={
+            <View style={styles.container}>
+              <Text style={styles.textLoading}>Nenhum título encontrado</Text>
+            </View>
+          }
         />
       ) : (
         <View style={styles.container}>
