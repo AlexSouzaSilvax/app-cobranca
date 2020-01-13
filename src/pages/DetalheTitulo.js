@@ -17,7 +17,7 @@ import { api, helper } from "../api";
 
 const { width, height } = Dimensions.get("window");
 
-export default function Login({ navigation }) {
+export default function DetalheTitulo({ navigation }) {
   const [loading, setLoading] = useState(false);
   const t = navigation.getParam("titulo");
 
@@ -143,6 +143,24 @@ export default function Login({ navigation }) {
     });
   }
 
+  async function apagar() {
+    await api
+      .post("/titulos/apagar", {
+        _id
+      })
+      .then(response => {
+        if (response.status == 200) {
+          Alert.alert("Apagado com sucesso.");
+          navigation.navigate("Principal");
+        } else {
+          Alert.alert("Falha ao apagar.");
+        }
+      })
+      .catch(error => {
+        Alert.alert(`Serviço indisponível`);
+      });
+  }
+
   if (loading) {
     return (
       <View style={styles.container}>
@@ -159,6 +177,8 @@ export default function Login({ navigation }) {
           voltar={"Principal"}
           salvar
           onPressSalvar={salvar}
+          apagar
+          onPressApagar={apagar}
           data={t}
         />
 

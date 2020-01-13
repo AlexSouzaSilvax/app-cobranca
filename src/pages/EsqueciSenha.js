@@ -7,7 +7,7 @@ import { api } from "../api";
 
 const { width, height } = Dimensions.get("window");
 
-export default function Cadastrar({ navigation }) {
+export default function EsqueciSenha({ navigation }) {
   const [email, setEmail] = useState();
   const [senha, setSenha] = useState();
 

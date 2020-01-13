@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Text,
+  Dimensions
+} from "react-native";
 import { Spinner } from "native-base";
 import { withNavigation } from "react-navigation"; // para usar a navegacao de routes por components
 import { helper } from "../api";
+
+const { width, height } = Dimensions.get("window");
 
 function CardTitulos({ navigation, titulo, _idUsuario }) {
   const [loading, setLoading] = useState(false);
@@ -32,9 +40,7 @@ function CardTitulos({ navigation, titulo, _idUsuario }) {
   } else {
     return (
       <TouchableOpacity
-        onPress={() =>
-          navigation.navigate("DetalheTitulo", { titulo, _idUsuario })
-        }
+        onPress={() => navigation.navigate("DetalheTitulo", { titulo })}
       >
         <View style={styles.card}>
           <View style={{ flexDirection: "row", justifyContent: "center" }}>
@@ -100,8 +106,8 @@ export default withNavigation(CardTitulos);
 
 const styles = StyleSheet.create({
   card: {
-    width: 400,
-    height: 220,
+    width: width - 500,
+    height: height - 500,
     margin: 5,
     borderRadius: 12,
     backgroundColor: "#303030"
@@ -127,24 +133,24 @@ const styles = StyleSheet.create({
   cardStatusGreen: {
     backgroundColor: "#77dd77",
     borderRadius: 22,
-    width: 200,
-    height: 50,
+    width: width - 200,
+    height: height - 800,
     alignItems: "center",
     justifyContent: "center"
   },
   cardStatusRed: {
     backgroundColor: "#ff6961",
     borderRadius: 22,
-    width: 200,
-    height: 50,
+    width: width - 200,
+    height: height - 800,
     alignItems: "center",
     justifyContent: "center"
   },
   cardStatusYellow: {
     backgroundColor: "#eead2d",
     borderRadius: 22,
-    width: 200,
-    height: 50,
+    width: width - 200,
+    height: height - 800,
     alignItems: "center",
     justifyContent: "center"
   },

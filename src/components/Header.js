@@ -14,6 +14,7 @@ import iconUser from "../../assets/user.png";
 import iconVoltar from "../../assets/iconVoltar.png";
 import iconSalvar from "../../assets/iconSalvar.png";
 import iconSair from "../../assets/iconSair.png";
+import iconApagar from "../../assets/iconApagar.png";
 
 function Header({
   navigation,
@@ -22,7 +23,9 @@ function Header({
   sair,
   voltar,
   salvar,
+  apagar,
   onPressSalvar,
+  onPressApagar,
   tamanhoTitulo
 }) {
   const [t, setT] = useState(titulo);
@@ -30,6 +33,7 @@ function Header({
   const [e] = useState(sair);
   const [v] = useState(voltar);
   const [s] = useState(salvar);
+  const [a] = useState(apagar);
   const [loading, setLoading] = useState(false);
 
   if (loading) {
@@ -43,7 +47,7 @@ function Header({
       <View style={styles.header}>
         {u ? (
           <View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate(user)}>
               <Image source={iconUser} style={styles.iconUser} />
             </TouchableOpacity>
           </View>
@@ -60,6 +64,16 @@ function Header({
         <View style={{ flex: 2, paddingTop: 5 }}>
           <Text style={[styles.titulo, { fontSize: tamanhoTitulo }]}>{t}</Text>
         </View>
+
+        {a ? (
+          <View>
+            <TouchableOpacity onPress={onPressApagar}>
+              <Image source={iconApagar} style={styles.iconApagar} />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View></View>
+        )}
 
         {e ? (
           <View>
@@ -97,7 +111,6 @@ function Header({
         ) : s ? (
           <View>
             <TouchableOpacity onPress={onPressSalvar}>
-              {/*<Text style={styles.textSalvar}>V</Text>*/}
               <Image source={iconSalvar} style={styles.iconSalvar} />
             </TouchableOpacity>
           </View>
@@ -148,6 +161,13 @@ const styles = StyleSheet.create({
     width: 35,
     marginTop: 5,
     marginEnd: 14,
+    alignSelf: "flex-end"
+  },
+  iconApagar: {
+    height: 35,
+    width: 35,
+    marginTop: 5,
+    marginEnd: 8,
     alignSelf: "flex-end"
   },
   iconSair: {

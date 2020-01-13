@@ -41,7 +41,12 @@ export default function Principal({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Header titulo={"Títulos"} tamanhoTitulo={28} user sair />
+      <Header
+        titulo={"Títulos"}
+        tamanhoTitulo={28}
+        user={"DetalheUsuario"}
+        sair
+      />
 
       {loading ? (
         <View style={styles.container}>
