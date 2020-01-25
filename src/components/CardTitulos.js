@@ -10,13 +10,14 @@ import { Spinner } from "native-base";
 import { withNavigation } from "react-navigation"; // para usar a navegacao de routes por components
 import { helper } from "../api";
 
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get("screen");
 
 function CardTitulos({ navigation, titulo, _idUsuario }) {
   const [loading, setLoading] = useState(false);
-  const [corSttsR, setCorSttsR] = useState();
-  const [corSttsP, setCorSttsP] = useState();
+  /*const [corSttsR, setCorSttsR] = useState();
+  const [corSttsP, setCorSttsP] = useState();*/
 
+  /*
   useEffect(() => {
     if (titulo.status == "Recebido") {
       setCorSttsR("green");
@@ -24,6 +25,7 @@ function CardTitulos({ navigation, titulo, _idUsuario }) {
       setCorSttsP("yellow");
     }
   });
+  */
 
   if (loading) {
     return (
@@ -47,19 +49,31 @@ function CardTitulos({ navigation, titulo, _idUsuario }) {
             <Text style={styles.textTitulo}>{titulo.descricao}</Text>
           </View>
 
-          <View style={{ flexDirection: "row" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignSelf: "center"
+            }}
+          >
             <View
               style={{ flex: 1, alignSelf: "flex-start", paddingStart: 30 }}
             >
               <Text style={styles.textFix}>Valor</Text>
             </View>
 
-            <View style={{ flex: 1, alignSelf: "flex-end", marginLeft: 150 }}>
+            <View style={{ flex: 1, alignSelf: "flex-end", marginLeft: 100 }}>
               <Text style={styles.textFix}>Data Venc.</Text>
             </View>
           </View>
 
-          <View style={{ flexDirection: "row" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignSelf: "center"
+            }}
+          >
             <View
               style={{ flex: 1, alignSelf: "flex-start", paddingStart: 30 }}
             >
@@ -68,13 +82,20 @@ function CardTitulos({ navigation, titulo, _idUsuario }) {
               </Text>
             </View>
 
-            <View style={{ flex: 1, alignSelf: "flex-end", marginLeft: 140 }}>
+            <View
+              style={{
+                flex: 1,
+                alignSelf: "flex-end",
+                marginLeft: 100
+              }}
+            >
               <Text style={styles.textVariavel}>
                 {helper.formatData(titulo.dataVenc)}
               </Text>
             </View>
           </View>
 
+          {/*
           <View
             style={{
               paddingTop: 20,
@@ -96,6 +117,7 @@ function CardTitulos({ navigation, titulo, _idUsuario }) {
               </View>
             )}
           </View>
+          */}
         </View>
       </TouchableOpacity>
     );
@@ -106,9 +128,9 @@ export default withNavigation(CardTitulos);
 
 const styles = StyleSheet.create({
   card: {
-    width: width - 500,
-    height: height - 500,
-    margin: 5,
+    width: width - 20,
+    height: 150,
+    margin: 10,
     borderRadius: 12,
     backgroundColor: "#303030"
   },
@@ -125,11 +147,13 @@ const styles = StyleSheet.create({
     color: "#565656"
   },
   textVariavel: {
+    width: 150,
     paddingTop: 15,
     fontSize: 20,
     fontFamily: "Chewy",
     color: "#F3F3F3"
-  },
+  }
+  /*  
   cardStatusGreen: {
     backgroundColor: "#77dd77",
     borderRadius: 22,
@@ -160,4 +184,5 @@ const styles = StyleSheet.create({
     fontFamily: "Chewy",
     color: "#484848" //'#F3F3F3'
   }
+  */
 });

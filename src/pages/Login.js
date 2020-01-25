@@ -7,7 +7,8 @@ import {
   Text,
   TouchableOpacity,
   Alert,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Dimensions
 } from "react-native";
 import { Spinner } from "native-base";
 import { api, helper } from "../api";
@@ -83,7 +84,7 @@ export default function Login({ navigation }) {
             onPress={esqueciSenha}
           >
             <Text style={styles.buttonTextEsqueciSenha}>
-              Esqueceu sua senha ?
+              Não lembro minha senha
             </Text>
           </TouchableOpacity>
 
@@ -123,7 +124,11 @@ export default function Login({ navigation }) {
             //setTextBtnLogar("Login/Senha inválidos");
           } else {
             if (login == dados.login && senha == dados.senha) {
+              /* Retorno "_id", "email", "login", "senha" */
               AsyncStorage.setItem("idUsuario", dados._id);
+              AsyncStorage.setItem("emailUsuario", dados.email);
+              AsyncStorage.setItem("loginUsuario", dados.login);
+              AsyncStorage.setItem("senhaUsuario", dados.senha);
               navigation.navigate("Principal");
               //console.log("Bem vindo: " + data[0].login);
               //setBtnLoading(false);
@@ -156,7 +161,6 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   form: {
-    alignSelf: "stretch",
     paddingHorizontal: 30,
     marginTop: 30
   },
@@ -166,19 +170,10 @@ const styles = StyleSheet.create({
     color: "#aaaaaa",
     marginBottom: 8
   },
-  input: {
-    backgroundColor: "#363636",
-    paddingHorizontal: 20,
-    fontFamily: "Chewy",
-    fontSize: 23,
-    color: "#F3F3F3",
-    height: 44,
-    marginBottom: 20,
-    borderRadius: 5
-  },
   button: {
     marginTop: 15,
     height: 50,
+    width: Dimensions.get("screen").width - 22,
     backgroundColor: "#303030",
     justifyContent: "center",
     alignItems: "center",
@@ -186,11 +181,13 @@ const styles = StyleSheet.create({
   },
   buttonCadastrar: {
     padding: 8,
+    width: Dimensions.get("screen").width - 22,
     backgroundColor: "transparent",
     justifyContent: "center",
     alignItems: "center"
   },
   buttonEsqueciSenha: {
+    width: Dimensions.get("screen").width - 22,
     marginTop: 5,
     padding: 8,
     backgroundColor: "transparent",
@@ -213,6 +210,7 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   logo: {
+    marginTop: 15,
     width: 150,
     height: 150,
     alignItems: "center",

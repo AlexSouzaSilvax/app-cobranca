@@ -1,32 +1,30 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  Text,
-  Alert,
-  TouchableOpacity,
-  AsyncStorage
-} from "react-native";
+import { View, StyleSheet, Dimensions, Text, Alert } from "react-native";
 import { Spinner } from "native-base";
 import Header from "../components/Header";
 import InputComponent from "../components/Input";
 
-import DatePicker from "react-native-datepicker";
+//import DatePicker from "react-native-datepicker";
 import { api, helper } from "../api";
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("screen");
+
+import iconCash from "../../assets/iconCash.png";
+import iconDescricao from "../../assets/iconDescricao.png";
+import iconDate from "../../assets/iconDate.png";
 
 export default function DetalheTitulo({ navigation }) {
   const [loading, setLoading] = useState(false);
   const t = navigation.getParam("titulo");
 
-  const [_id] = useState(t._id);
-  const [descricao, setDescricao] = useState(t.descricao);
-  const [valor, setValor] = useState(t.valor);
-  const [dataVenc, setDataVenc] = useState(t.dataVenc);
-  const [status, setStatus] = useState(t.status);
+  const [_id, setId] = useState();
+  const [descricao, setDescricao] = useState();
+  const [valor, setValor] = useState();
+  const [dataVenc, setDataVenc] = useState();
+  const [status, setStatus] = useState();
 
+  {
+    /*
   const [sttsR, setSttsR] = useState(false);
   const [corSttsR, setCorSttsR] = useState("#484848");
 
@@ -35,9 +33,22 @@ export default function DetalheTitulo({ navigation }) {
 
   const [sttsA, setSttsA] = useState(false);
   const [corSttsA, setCorSttsA] = useState("#484848");
+*/
+  }
+
+  const [novo, setNovo] = useState(false);
 
   useEffect(() => {
-    if (status == "Recebido") {
+    if (!t) {
+      setNovo(true);
+    } else {
+      setId(t._id);
+      setDescricao(t.descricao);
+      setValor(t.valor);
+      setDataVenc(t.dataVenc);
+      setStatus(t.status);
+    }
+    /*if (status == "Recebido") {
       setSttsR(true);
       setCorSttsR("#F3F3F3");
     } else if (status == "Pendente") {
@@ -46,9 +57,9 @@ export default function DetalheTitulo({ navigation }) {
     } else {
       setSttsA(true);
       setCorSttsA("#F3F3F3");
-    }
+    }*/
   }, []);
-
+  /*
   function verificaSttsR() {
     if (sttsR) {
       setSttsR(false);
@@ -117,9 +128,9 @@ export default function DetalheTitulo({ navigation }) {
       setCorSttsP("#484848");
     }
   }
-
+*/
   async function salvar() {
-    helper.getItem("idUsuario").then(id => {
+    await helper.getItem("idUsuario").then(id => {
       api
         .post("/titulos/atualizar", {
           _id,
@@ -171,36 +182,62 @@ export default function DetalheTitulo({ navigation }) {
   } else {
     return (
       <View style={styles.container}>
-        <Header
-          titulo={descricao ? descricao : "Novo Título"}
-          tamanhoTitulo={25}
-          voltar={"Principal"}
-          salvar
-          onPressSalvar={salvar}
-          apagar
-          onPressApagar={apagar}
-          data={t}
-        />
+        {!t ? (
+          <Header
+            titulo={descricao ? descricao : "Novo Título"}
+            tamanhoTitulo={25}
+            voltar={"Principal"}
+            salvar
+            onPressSalvar={salvar}
+          />
+        ) : (
+          <Header
+            titulo={descricao ? descricao : "Novo Título"}
+            tamanhoTitulo={25}
+            voltar={"Principal"}
+            salvar
+            onPressSalvar={salvar}
+            apagar
+            onPressApagar={apagar}
+            data={t}
+          />
+        )}
 
         <View style={styles.cardTitulo}>
           <Text style={styles.textFix}>Descrição</Text>
-          <InputComponent
-            valor={descricao}
-            onChangeText={d => setDescricao(d)}
-            autoCorrect={false}
-            placeholder={"Descrição"}
-          />
+          <View style={styles.widthInput}>
+            <InputComponent
+              icon={iconDescricao}
+              valor={descricao}
+              onChangeText={d => setDescricao(d)}
+              autoCorrect={false}
+              //placeholder={"Bixcoito"}
+              //placeholderTextColor={"#aaa"}
+            />
+          </View>
           <Text style={styles.textFix}>Valor</Text>
-          <InputComponent
-            valor={valor}
-            onChangeText={v => setValor(v)}
-            autoCorrect={false}
-            placeholder={"R$ Valor"}
-          />
-
+          <View style={styles.widthInput}>
+            <InputComponent
+              icon={iconCash}
+              valor={valor}
+              onChangeText={v => setValor(v)}
+              autoCorrect={false}
+              //placeholder={"R$ 10,00"}
+              //placeholderTextColor={"#aaa"}
+            />
+          </View>
           <Text style={styles.textFix}>Data de Vencimento</Text>
-          {/*<InputComponent valor={dataVencimento} onChangeText={(d) => setDataVencimento(d)} autoCorrect={false} />*/}
-          <DatePicker
+          <View style={styles.widthInput}>
+            <InputComponent
+              icon={iconDate}
+              valor={dataVenc}
+              onChangeText={d => setDataVenc(d)}
+              autoCorrect={false}
+              //placeholder={"Ex: 24/01/2020"}
+              //placeholderTextColor={"#aaa"}
+            />
+          </View>
+          {/*<DatePicker
             style={{ width: 200 }}
             date={dataVenc} //initial date from state
             mode="date"
@@ -221,9 +258,10 @@ export default function DetalheTitulo({ navigation }) {
                 marginLeft: 36
               }
             }}
-          />
-          <Text style={styles.textFix}>Status</Text>
-          <View style={styles.viewStatus}>
+          />*/}
+          {/*         
+           <Text style={styles.textFix}>Status</Text>  
+                  <View style={styles.viewStatus}>
             <TouchableOpacity
               style={{ flex: 1, padding: 10 }}
               onPress={verificaSttsR}
@@ -272,6 +310,7 @@ export default function DetalheTitulo({ navigation }) {
               </View>
             </TouchableOpacity>
           </View>
+        */}
         </View>
       </View>
     );
@@ -285,10 +324,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#444"
   },
   cardTitulo: {
-    width: width - 30,
-    height: height - 200,
+    width: width - 10,
     marginTop: 25,
-    borderRadius: 8,
+    borderRadius: 2,
     backgroundColor: "#303030",
     alignSelf: "center"
   },
@@ -353,5 +391,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     alignSelf: "center",
     fontFamily: "Chewy"
+  },
+  widthInput: {
+    //width: width - 20,
+    justifyContent: "center",
+    alignSelf: "center"
   }
 });

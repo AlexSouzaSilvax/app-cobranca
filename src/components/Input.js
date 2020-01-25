@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, TextInput, Image } from "react-native";
+import { View, StyleSheet, TextInput, Image, Dimensions } from "react-native";
 
 export default function Input({
   icon,
@@ -18,7 +18,7 @@ export default function Input({
         <Image source={icon} style={styles.icon} />
       </View>
 
-      <View style={{ flex: 1, alignItems: "center" }}>
+      <View style={{ justifyContent: "center" }}>
         <TextInput
           style={styles.input}
           secureTextEntry={secureTextEntry}
@@ -37,6 +37,8 @@ export default function Input({
 
 const styles = StyleSheet.create({
   input: {
+    alignSelf: "center",
+    width: Dimensions.get("screen").width - 18,
     fontFamily: "Chewy",
     fontSize: 23,
     color: "#F3F3F3",
@@ -45,8 +47,8 @@ const styles = StyleSheet.create({
   cardInput: {
     backgroundColor: "#363636",
     paddingHorizontal: 20,
-    height: 44,
-    margin: 10,
+    width: Dimensions.get("screen").width - 25,
+    height: 50,
     marginBottom: 20,
     borderRadius: 5,
     flexDirection: "row"

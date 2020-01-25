@@ -5,7 +5,10 @@ import InputComponent from "../components/Input";
 
 import { api } from "../api";
 
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get("screen");
+
+import iconUser from "../../assets/user.png";
+import iconPassword from "../../assets/iconPassword.png";
 
 export default function EsqueciSenha({ navigation }) {
   const [email, setEmail] = useState();
@@ -14,8 +17,8 @@ export default function EsqueciSenha({ navigation }) {
   return (
     <View style={styles.container}>
       <Header
-        titulo={"Esqueci minha senha"}
-        tamanhoTitulo={25}
+        titulo={"Nova Senha"}
+        tamanhoTitulo={30}
         voltar={"Login"}
         salvar
         onPressSalvar={salvar}
@@ -23,27 +26,33 @@ export default function EsqueciSenha({ navigation }) {
 
       <View style={styles.cardTitulo}>
         <Text style={styles.textFix}>Email *</Text>
-        <InputComponent
-          valor={email}
-          onChangeText={e => setEmail(e)}
-          autoCorrect={false}
-          placeholder="Seu email"
-          placeholderTextColor="#565656"
-          keyboardType="email-address" // especifica que é um input de e-mail, teclado de e-mail com @ incluso.
-          autoCapitalize="none" // não permitir que já se inicie texto com caixa alta.
-          autoCorrect={false} //não permitir fazer correção do texto
-        />
+        <View style={styles.widthInput}>
+          <InputComponent
+            icon={iconUser}
+            valor={email}
+            onChangeText={e => setEmail(e)}
+            autoCorrect={false}
+            placeholder="Seu email"
+            placeholderTextColor="#565656"
+            keyboardType="email-address" // especifica que é um input de e-mail, teclado de e-mail com @ incluso.
+            autoCapitalize="none" // não permitir que já se inicie texto com caixa alta.
+            autoCorrect={false} //não permitir fazer correção do texto
+          />
+        </View>
 
         <Text style={styles.textFix}>Nova Senha *</Text>
-        <InputComponent
-          valor={senha}
-          onChangeText={s => setSenha(s)}
-          autoCorrect={false}
-          placeholder="Sua nova senha"
-          placeholderTextColor="#565656"
-          autoCapitalize="none" // não permitir que já se inicie texto com caixa alta.
-          autoCorrect={false} //não permitir fazer correção do texto
-        />
+        <View style={styles.widthInput}>
+          <InputComponent
+            icon={iconPassword}
+            valor={senha}
+            onChangeText={s => setSenha(s)}
+            autoCorrect={false}
+            placeholder="Sua nova senha"
+            placeholderTextColor="#565656"
+            autoCapitalize="none" // não permitir que já se inicie texto com caixa alta.
+            autoCorrect={false} //não permitir fazer correção do texto
+          />
+        </View>
       </View>
     </View>
   );
@@ -75,20 +84,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#444"
   },
   cardTitulo: {
-    width: width - 30,
-    height: height - 490,
+    width: width - 10,
     marginTop: 25,
-    borderRadius: 8,
+    borderRadius: 2,
     backgroundColor: "#303030",
     alignSelf: "center"
-  },
-  input: {
-    justifyContent: "center",
-    alignSelf: "center",
-    fontFamily: "Chewy",
-    fontSize: 23,
-    color: "#F3F3F3",
-    paddingTop: 8
   },
   button: {
     marginTop: 15,
@@ -118,5 +118,10 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontFamily: "Chewy",
     color: "#565656"
+  },
+  widthInput: {
+    //width: width - 20,
+    justifyContent: "center",
+    alignSelf: "center"
   }
 });

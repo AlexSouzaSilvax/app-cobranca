@@ -78,9 +78,7 @@ export default function Principal({ navigation }) {
 
       <ActionButton
         buttonColor="#565656"
-        onPress={() =>
-          navigation.navigate("DetalheTitulo", { titulo: titulos })
-        }
+        onPress={() => navigation.navigate("DetalheTitulo")}
       />
     </View>
   );
