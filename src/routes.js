@@ -11,12 +11,12 @@ import DetalheTitulo from "./pages/DetalheTitulo";
 const Routes = createAppContainer(
   createSwitchNavigator({
     Loading,
-    Login
-    /*Cadastrar,
+    Login,
+    Cadastrar,
     EsqueciSenha,
     Principal,
     DetalheUsuario,
-    DetalheTitulo*/
+    DetalheTitulo
   })
 );
 

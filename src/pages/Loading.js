@@ -5,7 +5,7 @@ import logo from "../../assets/icon.png";
 import { helper } from "../api";
 
 export default function Loading({ navigation }) {
-  const [progresso, setProgresso] = useState(0.5);
+  const [progresso, setProgresso] = useState(0);
 
   function animacao() {
     let progress = 0;
@@ -24,10 +24,10 @@ export default function Loading({ navigation }) {
     await helper.getItem("idUsuario").then(idUsuario => {
       if (idUsuario) {
         navigation.navigate("Principal");
-        console.log(`navigation.navigate("Principal");`);
+        //console.log(`navigation.navigate("Principal");`);
       } else {
         navigation.navigate("Login");
-        console.log(`navigation.navigate("Login");`);
+        //console.log(`navigation.navigate("Login");`);
       }
     });
   }

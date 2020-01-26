@@ -101,7 +101,7 @@ export default function DetalheTitulo({ navigation }) {
       setSttsR(false);
       setCorSttsR("#484848");
 
-      setSttsA(false);
+      setSttsA(false);numberToReal
       setCorSttsA("#484848");
     }
   }
@@ -192,7 +192,7 @@ export default function DetalheTitulo({ navigation }) {
           />
         ) : (
           <Header
-            titulo={descricao ? descricao : "Novo Título"}
+            titulo={t.descricao}
             tamanhoTitulo={25}
             voltar={"Principal"}
             salvar
@@ -211,8 +211,8 @@ export default function DetalheTitulo({ navigation }) {
               valor={descricao}
               onChangeText={d => setDescricao(d)}
               autoCorrect={false}
-              //placeholder={"Bixcoito"}
-              //placeholderTextColor={"#aaa"}
+              placeholder={"Ex: Conta de luz"}
+              placeholderTextColor={"#aaa"}
             />
           </View>
           <Text style={styles.textFix}>Valor</Text>
@@ -222,8 +222,9 @@ export default function DetalheTitulo({ navigation }) {
               valor={valor}
               onChangeText={v => setValor(v)}
               autoCorrect={false}
-              //placeholder={"R$ 10,00"}
-              //placeholderTextColor={"#aaa"}
+              placeholder={"Ex: 900"}
+              keyboardType="number-pad"
+              placeholderTextColor={"#aaa"}
             />
           </View>
           <Text style={styles.textFix}>Data de Vencimento</Text>
@@ -233,8 +234,8 @@ export default function DetalheTitulo({ navigation }) {
               valor={dataVenc}
               onChangeText={d => setDataVenc(d)}
               autoCorrect={false}
-              //placeholder={"Ex: 24/01/2020"}
-              //placeholderTextColor={"#aaa"}
+              placeholder={"Ex: 26/01/2020"}
+              placeholderTextColor={"#aaa"}
             />
           </View>
           {/*<DatePicker

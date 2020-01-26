@@ -43,17 +43,28 @@ export const helper = {
   },
   formatData(data) {
     if (data) {
+      // 01012020
+      var dia = data.substr(0, 2);
+      var mes = data.substr(2, 2);
+      var ano = data.substr(4, 4);
+
+      data = `${dia}/${mes}/${ano}`;
+
+      return data;
+    } else {
+      return "-";
+    }
+    /*
+    if (data) {
       data = data.replace(/-/g, "/").substr(0, 10);
       return data;
     }
-    return "Não informado";
+    return "Não informado";*/
   },
   numberToReal(n) {
-    return (
-      "R$ " + n
-      //.toFixed(2)
-      //.replace(".", ",")
-      //.replace(/(\d)(?=(\d{3})+\,)/g, "$1.")
-    );
+    n = parseFloat(n).toFixed(2);
+    n = n.replace(".", ",");
+    n = n.replace(/(\d)(?=(\d{3})+\,)/g, "$1.");
+    return `R$ ${n}`;
   }
 };
