@@ -10,7 +10,8 @@ export default function Input({
   keyboardType,
   placeholderTextColor,
   placeholder,
-  secureTextEntry
+  secureTextEntry,
+  maxLength
 }) {
   return (
     <View style={styles.cardInput}>
@@ -29,6 +30,7 @@ export default function Input({
           autoCorrect={autoCorrect}
           value={valor}
           onChangeText={onChangeText}
+          maxLength={maxLength}
         />
       </View>
     </View>

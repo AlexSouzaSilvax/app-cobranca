@@ -40,7 +40,7 @@ export default function DetalheTitulo({ navigation }) {
           _id,
           descricao,
           valor,
-          dataVenc,
+          dataVenc: helper.formatDataInput(dataVenc),
           status,
           usuario: id
         })
@@ -124,7 +124,7 @@ export default function DetalheTitulo({ navigation }) {
             <InputComponent
               icon={iconCash}
               valor={valor}
-              onChangeText={v => setValor(v)}
+              onChangeText={v => setValor(helper.numberToRealInput(v))}
               placeholder={"Ex: R$ 100"}
               keyboardType="number-pad"
               placeholderTextColor={"#aaa"}
@@ -139,6 +139,7 @@ export default function DetalheTitulo({ navigation }) {
               keyboardType="number-pad"
               placeholder={"Ex: 26/01/2020"}
               placeholderTextColor={"#aaa"}
+              maxLength={10}
             />
           </View>
         </View>

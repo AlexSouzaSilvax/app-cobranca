@@ -78,7 +78,8 @@ function CardTitulos({ navigation, titulo, _idUsuario }) {
               style={{ flex: 1, alignSelf: "flex-start", paddingStart: 30 }}
             >
               <Text style={styles.textVariavel}>
-                {helper.numberToReal(titulo.valor)}
+                {/*helper.numberToReal(titulo.valor)*/}
+                {`R$ ${titulo.valor}`}
               </Text>
             </View>
 
@@ -90,7 +91,8 @@ function CardTitulos({ navigation, titulo, _idUsuario }) {
               }}
             >
               <Text style={styles.textVariavel}>
-                {helper.formatData(titulo.dataVenc)}
+                {/*helper.formatData(titulo.dataVenc)*/}
+                {titulo.dataVenc}
               </Text>
             </View>
           </View>
