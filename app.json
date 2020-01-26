@@ -22,8 +22,6 @@
     },
     "android": {
       "package": "com.alexsouzasilvax.cobranca"
-    },
-    "githubUrl": "https://github.com/alexsouzasilvax/app-cobranca",
-    "primaryColor": "#444"
+    }
   }
 }

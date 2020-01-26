@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as Font from "expo-font";
 
 import Routes from "./src/routes";
-import Loading from "./src/components/Loading";
+import { AppLoading } from "expo";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -19,7 +19,7 @@ export default function App() {
   });
 
   if (loading) {
-    return <Loading />;
+    return <AppLoading />;
   } else {
     return <Routes />;
   }

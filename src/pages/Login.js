@@ -11,7 +11,7 @@ import {
   Dimensions
 } from "react-native";
 import { Spinner } from "native-base";
-import { api, helper } from "../api";
+import { api } from "../../src/api";
 
 import InputComponent from "../components/Input";
 
@@ -25,14 +25,6 @@ export default function Login({ navigation }) {
   const [senha, setSenha] = useState("");
   const [btnLoading, setBtnLoading] = useState(false);
   const [textBtnLogar, setTextBtnLogar] = useState("Acessar");
-
-  useEffect(() => {
-    helper.getItem("idUsuario").then(idUsuario => {
-      if (idUsuario) {
-        navigation.navigate("Principal");
-      }
-    });
-  }, []);
 
   if (loading) {
     return (

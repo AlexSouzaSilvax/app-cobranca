@@ -1,5 +1,6 @@
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 
+import Loading from "./pages/Loading";
 import Login from "./pages/Login";
 import Cadastrar from "./pages/Cadastrar";
 import EsqueciSenha from "./pages/EsqueciSenha";
@@ -9,12 +10,13 @@ import DetalheTitulo from "./pages/DetalheTitulo";
 
 const Routes = createAppContainer(
   createSwitchNavigator({
-    Login,
-    Cadastrar,
+    Loading,
+    Login
+    /*Cadastrar,
     EsqueciSenha,
     Principal,
     DetalheUsuario,
-    DetalheTitulo
+    DetalheTitulo*/
   })
 );
 

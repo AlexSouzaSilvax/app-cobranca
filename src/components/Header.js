@@ -96,7 +96,7 @@ function Header({
                       text: "Sim",
                       onPress: () => {
                         AsyncStorage.removeItem("idUsuario");
-                        navigation.navigate("Login");
+                        navigation.navigate("Loading");
                       }
                     }
                   ],
