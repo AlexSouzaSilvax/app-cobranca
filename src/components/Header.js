@@ -15,6 +15,11 @@ import iconVoltar from "../../assets/iconVoltar.png";
 import iconSalvar from "../../assets/iconSalvar.png";
 import iconSair from "../../assets/iconSair.png";
 import iconApagar from "../../assets/iconApagar.png";
+import iconPesquisa from "../../assets/iconPesquisa.png";
+import iconTemaBranco from "../../assets/iconTemaBranco.png";
+import iconTemaPreto from "../../assets/iconTemaPreto.png";
+
+import Icon from "react-native-vector-icons/FontAwesome";
 
 function Header({
   navigation,
@@ -26,7 +31,10 @@ function Header({
   apagar,
   onPressSalvar,
   onPressApagar,
-  tamanhoTitulo
+  tamanhoTitulo,
+  pesquisa,
+  onPressPesquisa,
+  trocaTema
 }) {
   const [t, setT] = useState(titulo);
   const [u] = useState(user);
@@ -35,6 +43,8 @@ function Header({
   const [s] = useState(salvar);
   const [a] = useState(apagar);
   const [loading, setLoading] = useState(false);
+  const [p] = useState(pesquisa);
+  const [iconTema, setIconTema] = useState(iconTemaPreto);
 
   if (loading) {
     return (
@@ -60,10 +70,43 @@ function Header({
         ) : (
           <View style={{ flex: 1 }} />
         )}
+        {trocaTema ? (
+          <View>
+            <TouchableOpacity
+              onPress={() => {
+                if (iconTema === iconTemaBranco) {
+                  setIconTema(iconTemaPreto);
+                } else {
+                  setIconTema(iconTemaBranco);
+                }
+                Alert.alert("Em desenvolvimento.");
+              }}
+            >
+              <Image source={iconTema} style={styles.iconTema} />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View />
+        )}
 
         <View style={{ flex: 2, paddingTop: 5 }}>
           <Text style={[styles.titulo, { fontSize: tamanhoTitulo }]}>{t}</Text>
         </View>
+
+        {p ? (
+          <View>
+            <TouchableOpacity onPress={onPressPesquisa}>
+              <Icon
+                name={"search"}
+                size={25}
+                color={"#aaaaaa"}
+                style={styles.iconPesquisa}
+              />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View></View>
+        )}
 
         {a ? (
           <View>
@@ -83,10 +126,6 @@ function Header({
                   "Deseja realmente sair?",
                   "",
                   [
-                    /*{
-                      text: "Ask me later",
-                      onPress: () => console.log("Ask me later pressed")
-                    },*/
                     {
                       text: "Não",
                       onPress: () => console.log(""),
@@ -104,7 +143,6 @@ function Header({
                 );
               }}
             >
-              {/*<Text style={styles.textSair}>X</Text>*/}
               <Image source={iconSair} style={styles.iconSair} />
             </TouchableOpacity>
           </View>
@@ -137,7 +175,6 @@ const styles = StyleSheet.create({
   titulo: {
     alignSelf: "center",
     justifyContent: "center",
-    //fontSize: //28,
     color: "#F3F3F3",
     fontFamily: "Chewy",
     marginTop: 3
@@ -156,6 +193,13 @@ const styles = StyleSheet.create({
     marginStart: 14,
     alignSelf: "flex-start"
   },
+  iconTema: {
+    marginTop: 5,
+    height: 30,
+    width: 30,
+    marginStart: 14,
+    alignSelf: "flex-start"
+  },
   iconSalvar: {
     height: 35,
     width: 35,
@@ -168,6 +212,11 @@ const styles = StyleSheet.create({
     width: 35,
     marginTop: 5,
     marginEnd: 8,
+    alignSelf: "flex-end"
+  },
+  iconPesquisa: {
+    marginTop: 7,
+    marginEnd: 10,
     alignSelf: "flex-end"
   },
   iconSair: {

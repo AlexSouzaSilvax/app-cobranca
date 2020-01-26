@@ -9,19 +9,29 @@ import {
 } from "react-native";
 import { Spinner } from "native-base";
 import ActionButton from "react-native-action-button";
+import { createFilter } from "react-native-search-filter";
 import Header from "../components/Header";
 import CardTitulos from "../components/CardTitulos";
+import Pesquisa from "../components/Pesquisa";
+
 import { api, helper } from "../api";
 
 export default function Principal({ navigation }) {
-  const [titulos, setTitulos] = useState([]);
+  const [titulos, setTitulos] = useState();
+  const [titulosP, setTitulosP] = useState();
+  const [titulosLista, setTitulosLista] = useState();
+
   const [loading, setLoading] = useState(true);
+  const [cardPesquisa, setCardPesquisa] = useState(false);
+  const [pesquisa, setPesquisa] = useState();
+  const parametrosPesquisa = ["descricao"];
 
   useEffect(() => {
     getTitulos();
   }, []);
 
   async function getTitulos() {
+    setCardPesquisa(false);
     setLoading(true);
     helper.getItem("idUsuario").then(id => {
       //console.log(id);
@@ -30,6 +40,9 @@ export default function Principal({ navigation }) {
         .then(response => {
           //console.log(response.data);
           setTitulos(response.data);
+          setPesquisa("");
+          setTitulosLista(response.data);
+          setTitulosP(response.data);
           setLoading(false);
           //console.log("ja foi carai");
         })
@@ -39,14 +52,39 @@ export default function Principal({ navigation }) {
     });
   }
 
+  function pesquisar(p) {
+    setPesquisa(p);
+    setTitulosLista(titulosP.filter(createFilter(p, parametrosPesquisa)));
+  }
+
   return (
     <View style={styles.container}>
-      <Header
-        titulo={"Títulos"}
-        tamanhoTitulo={28}
-        user={"DetalheUsuario"}
-        sair
-      />
+      {cardPesquisa ? (
+        <View
+          style={{
+            backgroundColor: "#444444",
+            height: 52,
+            marginTop: 24
+          }}
+        >
+          <Pesquisa
+            placeHolder="Pesquisar títulos..."
+            valor={pesquisa}
+            onChangeText={p => pesquisar(p)}
+            onPressBackPesquisa={() => setCardPesquisa(false)}
+          />
+        </View>
+      ) : (
+        <Header
+          titulo={"Títulos"}
+          tamanhoTitulo={28}
+          user={"DetalheUsuario"}
+          sair
+          pesquisa
+          onPressPesquisa={() => setCardPesquisa(true)}
+          trocaTema
+        />
+      )}
 
       {loading ? (
         <View style={styles.container}>
@@ -56,7 +94,7 @@ export default function Principal({ navigation }) {
       ) : titulos ? (
         <FlatList
           style={styles.viewCardTitulos}
-          data={titulos}
+          data={titulosLista}
           keyExtractor={t => t._id}
           renderItem={({ item }) => (
             <CardTitulos key={item._id} titulo={item} />
@@ -77,7 +115,7 @@ export default function Principal({ navigation }) {
       )}
 
       <ActionButton
-        buttonColor="#565656"
+        buttonColor="#56565690" //"#565656"
         onPress={() => navigation.navigate("DetalheTitulo")}
       />
     </View>

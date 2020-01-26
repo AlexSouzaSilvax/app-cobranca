@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Dimensions, Text, Alert } from "react-native";
 import { Spinner } from "native-base";
+import DatePicker from "react-native-datepicker";
+
 import Header from "../components/Header";
 import InputComponent from "../components/Input";
-
-//import DatePicker from "react-native-datepicker";
-import { api, helper } from "../api";
-
-const { width } = Dimensions.get("screen");
 
 import iconCash from "../../assets/iconCash.png";
 import iconDescricao from "../../assets/iconDescricao.png";
 import iconDate from "../../assets/iconDate.png";
+
+import { api, helper } from "../api";
+const { width } = Dimensions.get("screen");
 
 export default function DetalheTitulo({ navigation }) {
   const [loading, setLoading] = useState(false);
@@ -23,112 +23,16 @@ export default function DetalheTitulo({ navigation }) {
   const [dataVenc, setDataVenc] = useState();
   const [status, setStatus] = useState();
 
-  {
-    /*
-  const [sttsR, setSttsR] = useState(false);
-  const [corSttsR, setCorSttsR] = useState("#484848");
-
-  const [sttsP, setSttsP] = useState(false);
-  const [corSttsP, setCorSttsP] = useState("#484848");
-
-  const [sttsA, setSttsA] = useState(false);
-  const [corSttsA, setCorSttsA] = useState("#484848");
-*/
-  }
-
-  const [novo, setNovo] = useState(false);
-
   useEffect(() => {
-    if (!t) {
-      setNovo(true);
-    } else {
+    if (t) {
       setId(t._id);
       setDescricao(t.descricao);
       setValor(t.valor);
       setDataVenc(t.dataVenc);
       setStatus(t.status);
     }
-    /*if (status == "Recebido") {
-      setSttsR(true);
-      setCorSttsR("#F3F3F3");
-    } else if (status == "Pendente") {
-      setSttsP(true);
-      setCorSttsP("#F3F3F3");
-    } else {
-      setSttsA(true);
-      setCorSttsA("#F3F3F3");
-    }*/
   }, []);
-  /*
-  function verificaSttsR() {
-    if (sttsR) {
-      setSttsR(false);
-      setCorSttsR("#484848");
 
-      setSttsA(false);
-      setCorSttsA("#484848");
-
-      setSttsP(false);
-      setCorSttsP("#484848");
-    } else {
-      setStatus("Recebido");
-      setSttsR(true);
-      setCorSttsR("#F3F3F3");
-
-      setSttsA(false);
-      setCorSttsA("#484848");
-
-      setSttsP(false);
-      setCorSttsP("#484848");
-    }
-  }
-
-  function verificaSttsP() {
-    if (sttsP) {
-      setSttsP(false);
-      setCorSttsP("#484848");
-
-      setSttsR(false);
-      setCorSttsR("#484848");
-
-      setSttsA(false);
-      setCorSttsA("#484848");
-    } else {
-      setStatus("Pendente");
-      setSttsP(true);
-      setCorSttsP("#F3F3F3");
-
-      setSttsR(false);
-      setCorSttsR("#484848");
-
-      setSttsA(false);numberToReal
-      setCorSttsA("#484848");
-    }
-  }
-
-  function verificaSttsA() {
-    if (sttsA) {
-      setSttsA(false);
-      setCorSttsA("#484848");
-
-      setSttsR(false);
-      setCorSttsR("#484848");
-
-      setSttsP(false);
-      setCorSttsP("#484848");
-    } else {
-      setStatus("Atrasado");
-      setSttsA(true);
-      setCorSttsA("#F3F3F3");
-
-      setSttsR(false);
-      setCorSttsR("#484848");
-
-      setSttsP(false);
-      setCorSttsP("#484848");
-    }
-  }
-*/
   async function salvar() {
     await helper.getItem("idUsuario").then(id => {
       api
@@ -211,7 +115,7 @@ export default function DetalheTitulo({ navigation }) {
               valor={descricao}
               onChangeText={d => setDescricao(d)}
               autoCorrect={false}
-              placeholder={"Ex: Conta de luz"}
+              placeholder={"Ex: Aluguel"}
               placeholderTextColor={"#aaa"}
             />
           </View>
@@ -221,8 +125,7 @@ export default function DetalheTitulo({ navigation }) {
               icon={iconCash}
               valor={valor}
               onChangeText={v => setValor(v)}
-              autoCorrect={false}
-              placeholder={"Ex: 900"}
+              placeholder={"Ex: R$ 100"}
               keyboardType="number-pad"
               placeholderTextColor={"#aaa"}
             />
@@ -233,85 +136,11 @@ export default function DetalheTitulo({ navigation }) {
               icon={iconDate}
               valor={dataVenc}
               onChangeText={d => setDataVenc(d)}
-              autoCorrect={false}
+              keyboardType="number-pad"
               placeholder={"Ex: 26/01/2020"}
               placeholderTextColor={"#aaa"}
             />
           </View>
-          {/*<DatePicker
-            style={{ width: 200 }}
-            date={dataVenc} //initial date from state
-            mode="date"
-            format="DD/MM/YYYY"
-            minDate="01/01/2010"
-            maxDate="01/01/2030"
-            onDateChange={date => {
-              setDataVenc(date);
-            }}
-            customStyles={{
-              dateIcon: {
-                position: "absolute",
-                left: 0,
-                top: 4,
-                marginLeft: 0
-              },
-              dateInput: {
-                marginLeft: 36
-              }
-            }}
-          />*/}
-          {/*         
-           <Text style={styles.textFix}>Status</Text>  
-                  <View style={styles.viewStatus}>
-            <TouchableOpacity
-              style={{ flex: 1, padding: 10 }}
-              onPress={verificaSttsR}
-            >
-              <View
-                style={[
-                  styles.cardStatus,
-                  { backgroundColor: "#77dd77", borderColor: corSttsR }
-                ]}
-              >
-                <Text style={[styles.textStatus, { color: corSttsR }]}>
-                  Recebido
-                </Text>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={{ flex: 1, margin: 10 }}
-              onPress={verificaSttsP}
-            >
-              <View
-                style={[
-                  styles.cardStatus,
-                  { backgroundColor: "#eead2d", borderColor: corSttsP }
-                ]}
-              >
-                <Text style={[styles.textStatus, { color: corSttsP }]}>
-                  Pendente
-                </Text>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={{ flex: 1, margin: 10 }}
-              onPress={verificaSttsA}
-            >
-              <View
-                style={[
-                  styles.cardStatus,
-                  { backgroundColor: "#ff6961", borderColor: corSttsA }
-                ]}
-              >
-                <Text style={[styles.textStatus, { color: corSttsA }]}>
-                  Atrasado
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        */}
         </View>
       </View>
     );

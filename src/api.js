@@ -62,9 +62,13 @@ export const helper = {
     return "Não informado";*/
   },
   numberToReal(n) {
-    n = parseFloat(n).toFixed(2);
-    n = n.replace(".", ",");
-    n = n.replace(/(\d)(?=(\d{3})+\,)/g, "$1.");
-    return `R$ ${n}`;
+    if (n) {
+      n = parseFloat(n).toFixed(2);
+      n = n.replace(".", ",");
+      n = n.replace(/(\d)(?=(\d{3})+\,)/g, "$1.");
+      return `R$ ${n}`;
+    } else {
+      return "-";
+    }
   }
 };
