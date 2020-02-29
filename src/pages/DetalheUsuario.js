@@ -5,10 +5,11 @@ import {
   Dimensions,
   Text,
   Alert,
-  AsyncStorage
+  AsyncStorage,
+  TouchableOpacity
 } from "react-native";
 
-import { Spinner } from "native-base";
+import { Spinner, Thumbnail } from "native-base";
 
 import Header from "../components/Header";
 import InputComponent from "../components/Input";
@@ -78,7 +79,7 @@ export default function DetalheUsuario({ navigation }) {
     return (
       <View style={styles.container}>
         <Header
-          titulo={"Detalhe Usuário"}
+          titulo={"Suas Informações"}
           tamanhoTitulo={25}
           voltar={"Principal"}
           salvar
@@ -86,6 +87,26 @@ export default function DetalheUsuario({ navigation }) {
         />
 
         <View style={styles.cardTitulo}>
+          <View
+            style={{
+              paddingTop: 15,
+              justifyContent: "center",
+              alignSelf: "center"
+            }}
+          >
+            <TouchableOpacity onPress={() => {}}>
+              <Thumbnail
+                large
+                source={{
+                  uri:
+                    //"https://facebook.github.io/react-native/docs/assets/favicon.png"
+                    //"https://pbs.twimg.com/profile_images/1229280534137901058/QuZ1v0Kv_400x400.jpg"
+                    "https://pbs.twimg.com/media/DtZj0C3X4AETbeF?format=jpg&name=large"
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+
           <Text style={styles.textFix}>Email</Text>
           <View style={styles.widthInput}>
             <InputComponent

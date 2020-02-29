@@ -93,6 +93,7 @@ export default function Principal({ navigation }) {
         </View>
       ) : titulos ? (
         <FlatList
+          showsVerticalScrollIndicator={false} //remove a barra lateral scroll
           style={styles.viewCardTitulos}
           data={titulosLista}
           keyExtractor={t => t._id}

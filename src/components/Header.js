@@ -9,7 +9,7 @@ import {
   AsyncStorage
 } from "react-native";
 import { withNavigation } from "react-navigation";
-import { Spinner } from "native-base";
+import { Spinner, Thumbnail } from "native-base";
 import iconUser from "../../assets/user.png";
 import iconVoltar from "../../assets/iconVoltar.png";
 import iconSalvar from "../../assets/iconSalvar.png";
@@ -57,8 +57,22 @@ function Header({
       <View style={styles.header}>
         {u ? (
           <View>
-            <TouchableOpacity onPress={() => navigation.navigate(user)}>
-              <Image source={iconUser} style={styles.iconUser} />
+            <TouchableOpacity
+              onPress={() => navigation.navigate(user)}
+              style={styles.iconUser}
+            >
+              {/*
+                <Image source={iconUser} style={styles.iconUser} /> 
+              */}
+              <Thumbnail
+                small
+                source={{
+                  uri:
+                    //"https://facebook.github.io/react-native/docs/assets/favicon.png"
+                    //"https://pbs.twimg.com/profile_images/1229280534137901058/QuZ1v0Kv_400x400.jpg"
+                    "https://pbs.twimg.com/media/DtZj0C3X4AETbeF?format=jpg&name=large"
+                }}
+              />
             </TouchableOpacity>
           </View>
         ) : v ? (
@@ -183,7 +197,7 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
     marginTop: 5,
-    marginStart: 15,
+    marginStart: 10,
     alignSelf: "flex-start"
   },
   iconVoltar: {
