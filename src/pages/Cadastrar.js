@@ -3,7 +3,7 @@ import { View, StyleSheet, Dimensions, Text, Alert } from "react-native";
 import Header from "../components/Header";
 import InputComponent from "../components/Input";
 
-import { api } from "../api";
+import { api, helper } from "../api";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -31,7 +31,7 @@ export default function Cadastrar({ navigation }) {
           <InputComponent
             icon={iconUser}
             valor={email}
-            onChangeText={e => setEmail(e)}
+            onChangeText={(e) => setEmail(e)}
             autoCorrect={false}
             placeholder="Seu email"
             placeholderTextColor="#565656"
@@ -46,7 +46,7 @@ export default function Cadastrar({ navigation }) {
           <InputComponent
             icon={iconUser}
             valor={login}
-            onChangeText={l => setLogin(l)}
+            onChangeText={(l) => setLogin(l)}
             autoCorrect={false}
             placeholder="Seu login"
             placeholderTextColor="#565656"
@@ -60,7 +60,7 @@ export default function Cadastrar({ navigation }) {
           <InputComponent
             icon={iconPassword}
             valor={senha}
-            onChangeText={s => setSenha(s)}
+            onChangeText={(s) => setSenha(s)}
             autoCorrect={false}
             placeholder="Sua senha"
             placeholderTextColor="#565656"
@@ -77,18 +77,19 @@ export default function Cadastrar({ navigation }) {
       .post("/usuarios/criar", {
         email,
         login,
-        senha
+        senha,
       })
-      .then(response => {
-        //console.log(response.data);
-
+      .then((response) => {
         if (response.status == 200) {
-          Alert.alert("Cadastrado com sucesso.");
+          helper.flashMessage("Cadastrado com sucesso.", "success");
           navigation.navigate("Login");
         }
       })
-      .catch(error => {
-        Alert.alert(`Serviço indisponível`);
+      .catch((error) => {
+        helper.flashMessage(
+          "Não foi possível cadastrar\nTente novamente",
+          "danger"
+        );
       });
   }
 }
@@ -97,14 +98,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 10,
-    backgroundColor: "#444"
+    backgroundColor: "#444",
   },
   cardTitulo: {
     width: width - 10,
     marginTop: 25,
     borderRadius: 2,
     backgroundColor: "#303030",
-    alignSelf: "center"
+    alignSelf: "center",
   },
   input: {
     justifyContent: "center",
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
     fontFamily: "Chewy",
     fontSize: 23,
     color: "#F3F3F3",
-    paddingTop: 8
+    paddingTop: 8,
   },
   button: {
     marginTop: 15,
@@ -120,12 +121,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#303030",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 2
+    borderRadius: 2,
   },
   buttonText: {
     color: "#F3F3F3",
     fontFamily: "Chewy",
-    fontSize: 28
+    fontSize: 28,
   },
   cardInput: {
     backgroundColor: "#363636",
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
     height: 44,
     margin: 10,
     marginBottom: 20,
-    borderRadius: 5
+    borderRadius: 5,
   },
   textFix: {
     //alignSelf: "center",
@@ -141,11 +142,11 @@ const styles = StyleSheet.create({
     marginStart: 7,
     fontSize: 25,
     fontFamily: "Chewy",
-    color: "#565656"
+    color: "#565656",
   },
   widthInput: {
     //width: width - 20,
     justifyContent: "center",
-    alignSelf: "center"
-  }
+    alignSelf: "center",
+  },
 });

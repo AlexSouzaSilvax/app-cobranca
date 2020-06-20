@@ -34,7 +34,7 @@ export default function DetalheTitulo({ navigation }) {
   }, []);
 
   async function salvar() {
-    await helper.getItem("idUsuario").then(id => {
+    await helper.getItem("idUsuario").then((id) => {
       api
         .post("/titulos/atualizar", {
           _id,
@@ -42,18 +42,19 @@ export default function DetalheTitulo({ navigation }) {
           valor,
           dataVenc: helper.formatDataInput(dataVenc),
           status,
-          usuario: id
+          usuario: id,
         })
-        .then(response => {
+        .then((response) => {
           if (response.status == 200) {
-            Alert.alert("Salvo com sucesso.");
+            helper.flashMessage("Salvo com sucesso", "success");
             navigation.navigate("Principal");
-          } else {
-            Alert.alert("Falha ao salvar.");
           }
         })
-        .catch(error => {
-          Alert.alert(`Serviço indisponível`);
+        .catch((error) => {
+          helper.flashMessage(
+            "Não foi possível salvar\nTente novamente",
+            "danger"
+          );
         });
     });
   }
@@ -61,18 +62,19 @@ export default function DetalheTitulo({ navigation }) {
   async function apagar() {
     await api
       .post("/titulos/apagar", {
-        _id
+        _id,
       })
-      .then(response => {
+      .then((response) => {
         if (response.status == 200) {
-          Alert.alert("Apagado com sucesso.");
+          helper.flashMessage("Apagado com sucesso", "success");
           navigation.navigate("Principal");
-        } else {
-          Alert.alert("Falha ao apagar.");
         }
       })
-      .catch(error => {
-        Alert.alert(`Serviço indisponível`);
+      .catch((error) => {
+        helper.flashMessage(
+          "Não foi possível apagar\nTente novamente",
+          "danger"
+        );
       });
   }
 
@@ -113,7 +115,7 @@ export default function DetalheTitulo({ navigation }) {
             <InputComponent
               icon={iconDescricao}
               valor={descricao}
-              onChangeText={d => setDescricao(d)}
+              onChangeText={(d) => setDescricao(d)}
               autoCorrect={false}
               placeholder={"Ex: Aluguel"}
               placeholderTextColor={"#aaa"}
@@ -124,7 +126,7 @@ export default function DetalheTitulo({ navigation }) {
             <InputComponent
               icon={iconCash}
               valor={valor}
-              onChangeText={v => setValor(helper.numberToRealInput(v))}
+              onChangeText={(v) => setValor(helper.numberToRealInput(v))}
               placeholder={"Ex: R$ 100"}
               keyboardType="number-pad"
               placeholderTextColor={"#aaa"}
@@ -135,7 +137,7 @@ export default function DetalheTitulo({ navigation }) {
             <InputComponent
               icon={iconDate}
               valor={dataVenc}
-              onChangeText={d => setDataVenc(d)}
+              onChangeText={(d) => setDataVenc(d)}
               keyboardType="number-pad"
               placeholder={"Ex: 26/01/2020"}
               placeholderTextColor={"#aaa"}
@@ -152,25 +154,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 10,
-    backgroundColor: "#444"
+    backgroundColor: "#444",
   },
   cardTitulo: {
     width: width - 10,
     marginTop: 25,
     borderRadius: 2,
     backgroundColor: "#303030",
-    alignSelf: "center"
+    alignSelf: "center",
   },
   form: {
     alignSelf: "stretch",
     paddingHorizontal: 30,
-    marginTop: 30
+    marginTop: 30,
   },
   label: {
     fontSize: 18,
     fontFamily: "Chewy",
     color: "#aaaaaa",
-    marginBottom: 8
+    marginBottom: 8,
   },
   input: {
     justifyContent: "center",
@@ -178,7 +180,7 @@ const styles = StyleSheet.create({
     fontFamily: "Chewy",
     fontSize: 23,
     color: "#F3F3F3",
-    paddingTop: 8
+    paddingTop: 8,
   },
   button: {
     marginTop: 15,
@@ -186,12 +188,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#303030",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 2
+    borderRadius: 2,
   },
   buttonText: {
     color: "#F3F3F3",
     fontFamily: "Chewy",
-    fontSize: 28
+    fontSize: 28,
   },
   cardInput: {
     backgroundColor: "#363636",
@@ -199,33 +201,33 @@ const styles = StyleSheet.create({
     height: 44,
     margin: 10,
     marginBottom: 20,
-    borderRadius: 5
+    borderRadius: 5,
   },
   textFix: {
     alignSelf: "center",
     paddingTop: 5,
     fontSize: 25,
     fontFamily: "Chewy",
-    color: "#565656"
+    color: "#565656",
   },
   viewStatus: {
     flexDirection: "row",
     alignSelf: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   cardStatus: {
     borderWidth: 2,
-    borderRadius: 25
+    borderRadius: 25,
   },
   textStatus: {
     margin: 10,
     fontSize: 20,
     alignSelf: "center",
-    fontFamily: "Chewy"
+    fontFamily: "Chewy",
   },
   widthInput: {
     //width: width - 20,
     justifyContent: "center",
-    alignSelf: "center"
-  }
+    alignSelf: "center",
+  },
 });

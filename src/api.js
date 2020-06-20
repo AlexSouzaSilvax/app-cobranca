@@ -1,5 +1,6 @@
 import axios from "axios";
 import { AsyncStorage } from "react-native";
+import { Toast } from 'native-base';
 
 export const api = axios.create({
   baseURL: "https://alex-api-cobranca.herokuapp.com"
@@ -95,5 +96,40 @@ export const helper = {
     n = n.replace(/(\d)(\d{3})(\d{3}),/g, "$1.$2.$3,");
     n = n.replace(/(\d)(\d{3}),/g, "$1.$2,");
     return n;
-  }
+  },
+  flashMessage(message, type) {
+    Toast.show({
+      text: message,
+      buttonText: "Ok",
+      position: "top",
+      type: type === 'info' ? 'warning' : type,
+      duration: 2000,
+      textStyle: {
+        color: '#F3F3F3',
+        fontSize: 17
+      },
+      buttonTextStyle: {
+        color: '#F3F3F3',
+        fontWeight: '600',
+        fontSize: 17
+      },
+      buttonStyle: {
+
+      },
+      style: {
+        margin: 5,
+        borderRadius: 8,
+        borderColor: "#e6e6e680",
+        borderBottomWidth: 0,
+        borderTopWidth: 0,
+        borderRightWidth: 0,
+        borderLeftWidth: 0,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+        elevation: 1,
+      },
+    });
+  },
 };

@@ -5,15 +5,20 @@ import {
   FlatList,
   StyleSheet,
   Text,
-  Alert
+  Animated,
+  SafeAreaView,
+  Image,
+  TouchableOpacity,
 } from "react-native";
-import { Spinner } from "native-base";
+
+import { Spinner, Thumbnail } from "native-base";
 import ActionButton from "react-native-action-button";
 import { createFilter } from "react-native-search-filter";
+import Constants from "expo-constants";
+
 import Header from "../components/Header";
 import CardTitulos from "../components/CardTitulos";
 import Pesquisa from "../components/Pesquisa";
-
 import { api, helper } from "../api";
 
 export default function Principal({ navigation }) {
@@ -26,28 +31,27 @@ export default function Principal({ navigation }) {
   const [pesquisa, setPesquisa] = useState();
   const parametrosPesquisa = ["descricao"];
 
+  const [scrollY, setScrollY] = useState(new Animated.Value(0));
+
   useEffect(() => {
+    setCardPesquisa(false);
+    setLoading(true);
     getTitulos();
+    setLoading(false);
   }, []);
 
   async function getTitulos() {
-    setCardPesquisa(false);
-    setLoading(true);
-    helper.getItem("idUsuario").then(id => {
-      //console.log(id);
+    helper.getItem("idUsuario").then((id) => {
       api
-        .post("/titulos", { _idUsuario: id }) //"5e0fdd191c9d440000364a50"
-        .then(response => {
-          //console.log(response.data);
+        .post("/titulos", { _idUsuario: id })
+        .then((response) => {
           setTitulos(response.data);
           setPesquisa("");
           setTitulosLista(response.data);
           setTitulosP(response.data);
-          setLoading(false);
-          //console.log("ja foi carai");
         })
-        .catch(error => {
-          Alert.alert(`Serviço indisponível`);
+        .catch((error) => {
+          helper.flashMessage("Falha a procurar títulos", "danger");
         });
     });
   }
@@ -58,33 +62,84 @@ export default function Principal({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      {/*
       {cardPesquisa ? (
         <View
           style={{
             backgroundColor: "#444444",
             height: 52,
-            marginTop: 24
+            marginTop: 24,
           }}
         >
           <Pesquisa
             placeHolder="Pesquisar títulos..."
             valor={pesquisa}
-            onChangeText={p => pesquisar(p)}
+            onChangeText={(p) => pesquisar(p)}
             onPressBackPesquisa={() => setCardPesquisa(false)}
           />
         </View>
       ) : (
         <Header
-          titulo={"Títulos"}
+          //titulo={"Títulos"}
           tamanhoTitulo={28}
           user={"DetalheUsuario"}
           sair
           pesquisa
           onPressPesquisa={() => setCardPesquisa(true)}
-          trocaTema
+          // trocaTema
         />
       )}
+      
+        */}
+
+      <Animated.View
+        style={[
+          styles.header,
+          {
+            height: scrollY.interpolate({
+              inputRange: [10, 120, 145],
+              outputRange: [60, 10, 0],
+              extrapolate: "clamp",
+            }),
+            opacity: scrollY.interpolate({
+              inputRange: [1, 80, 170],
+              outputRange: [1, 0.5, 0],
+              extrapolate: "clamp",
+            }),
+          },
+        ]}
+      >
+        <TouchableOpacity
+          onPress={() => navigation.navigate(user)}
+          style={styles.iconUser}
+        >
+          <Thumbnail
+            small
+            source={{
+              uri:
+                "https://pbs.twimg.com/media/DtZj0C3X4AETbeF?format=jpg&name=large",
+            }}
+          />
+        </TouchableOpacity>
+        <Animated.Image
+          source={require("../../assets/icon.png")}
+          style={{
+            width: scrollY.interpolate({
+              inputRange: [0, 120],
+              outputRange: [230, 90],
+              extrapolate: "clamp",
+            }),
+            height: 50,
+          }}
+          resizeMode="contain"
+        />
+        <Image
+          source={require("../../assets/icon.png")}
+          style={{ width: 30, height: 30 }}
+          resizeMode="contain"
+        />
+      </Animated.View>
 
       {loading ? (
         <View style={styles.container}>
@@ -93,10 +148,21 @@ export default function Principal({ navigation }) {
         </View>
       ) : titulos ? (
         <FlatList
+          scrollEventThrottle={16}
+          onScroll={Animated.event(
+            [
+              {
+                nativeEvent: {
+                  contentOffset: { y: scrollY },
+                },
+              },
+            ],
+            { useNativeDriver: false }
+          )}
           showsVerticalScrollIndicator={false} //remove a barra lateral scroll
           style={styles.viewCardTitulos}
           data={titulosLista}
-          keyExtractor={t => t._id}
+          keyExtractor={(t) => t._id}
           renderItem={({ item }) => (
             <CardTitulos key={item._id} titulo={item} />
           )}
@@ -119,23 +185,31 @@ export default function Principal({ navigation }) {
         buttonColor="#56565690" //"#565656"
         onPress={() => navigation.navigate("DetalheTitulo")}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  header: {
+    backgroundColor: "#444",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingRight: 10,
+    paddingLeft: 10,
+  },
   container: {
     flex: 1,
-    backgroundColor: "#444444",
-    paddingTop: 10
+    backgroundColor: "#444",
+    paddingTop: Constants.statusBarHeight,
   },
   viewCardTitulos: {
-    marginTop: 15
+    paddingTop: 15,
   },
   textLoading: {
     fontSize: 20,
     color: "#F3F3F3",
     alignSelf: "center",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 });

@@ -6,7 +6,7 @@ import {
   Text,
   Alert,
   AsyncStorage,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 
 import { Spinner, Thumbnail } from "native-base";
@@ -16,7 +16,7 @@ import InputComponent from "../components/Input";
 import iconUser from "../../assets/user.png";
 import iconPassword from "../../assets/iconPassword.png";
 
-import { api } from "../api";
+import { api, helper } from "../api";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -29,12 +29,15 @@ export default function DetalheUsuario({ navigation }) {
 
   useEffect(() => {
     async function getDadosUsuario() {
-      /*let idUsuario = await helper
-        .getItem("idUsuario")
-        .then(id => console.log(id));*/
-      await AsyncStorage.getItem("emailUsuario").then(email => setEmail(email));
-      await AsyncStorage.getItem("loginUsuario").then(login => setLogin(login));
-      await AsyncStorage.getItem("senhaUsuario").then(senha => setSenha(senha));
+      await AsyncStorage.getItem("emailUsuario").then((email) =>
+        setEmail(email)
+      );
+      await AsyncStorage.getItem("loginUsuario").then((login) =>
+        setLogin(login)
+      );
+      await AsyncStorage.getItem("senhaUsuario").then((senha) =>
+        setSenha(senha)
+      );
       setLoading(false);
     }
 
@@ -42,28 +45,29 @@ export default function DetalheUsuario({ navigation }) {
   }, []);
 
   async function salvar() {
-    AsyncStorage.getItem("idUsuario").then(id => {
+    AsyncStorage.getItem("idUsuario").then((id) => {
       api
         .post("/usuarios/atualizar", {
           _id: id,
           email: email,
           login: login,
-          senha: senha
+          senha: senha,
         })
-        .then(response => {
+        .then((response) => {
           if (response.status == 200) {
             AsyncStorage.setItem("emailUsuario", email);
             AsyncStorage.setItem("loginUsuario", login);
             AsyncStorage.setItem("senhaUsuario", senha);
 
-            Alert.alert("Alterado com sucesso.");
+            helper.flashMessage("Salvo com sucesso", "success");
             navigation.navigate("Principal");
-          } else {
-            Alert.alert("Falha ao alterar.");
           }
         })
-        .catch(error => {
-          Alert.alert(`Serviço indisponível`);
+        .catch((error) => {
+          helper.flashMessage(
+            "Não foi possível salvar\nTente novamente",
+            "danger"
+          );
         });
     });
   }
@@ -91,7 +95,7 @@ export default function DetalheUsuario({ navigation }) {
             style={{
               paddingTop: 15,
               justifyContent: "center",
-              alignSelf: "center"
+              alignSelf: "center",
             }}
           >
             <TouchableOpacity onPress={() => {}}>
@@ -101,7 +105,7 @@ export default function DetalheUsuario({ navigation }) {
                   uri:
                     //"https://facebook.github.io/react-native/docs/assets/favicon.png"
                     //"https://pbs.twimg.com/profile_images/1229280534137901058/QuZ1v0Kv_400x400.jpg"
-                    "https://pbs.twimg.com/media/DtZj0C3X4AETbeF?format=jpg&name=large"
+                    "https://pbs.twimg.com/media/DtZj0C3X4AETbeF?format=jpg&name=large",
                 }}
               />
             </TouchableOpacity>
@@ -112,7 +116,7 @@ export default function DetalheUsuario({ navigation }) {
             <InputComponent
               icon={iconUser}
               valor={email}
-              onChangeText={e => setEmail(e)}
+              onChangeText={(e) => setEmail(e)}
               autoCorrect={false}
               placeholder="Seu email"
               placeholderTextColor="#565656"
@@ -127,7 +131,7 @@ export default function DetalheUsuario({ navigation }) {
             <InputComponent
               icon={iconUser}
               valor={login}
-              onChangeText={l => setLogin(l)}
+              onChangeText={(l) => setLogin(l)}
               autoCorrect={false}
               placeholder="Seu login"
               placeholderTextColor="#565656"
@@ -141,7 +145,7 @@ export default function DetalheUsuario({ navigation }) {
             <InputComponent
               icon={iconPassword}
               valor={senha}
-              onChangeText={s => setSenha(s)}
+              onChangeText={(s) => setSenha(s)}
               autoCorrect={false}
               placeholder="Sua senha"
               placeholderTextColor="#565656"
@@ -159,20 +163,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 10,
-    backgroundColor: "#444"
+    backgroundColor: "#444",
   },
   containerLogin: {
     flex: 1,
     backgroundColor: "#444444",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   cardTitulo: {
     width: width - 10,
     marginTop: 25,
     borderRadius: 2,
     backgroundColor: "#303030",
-    alignSelf: "center"
+    alignSelf: "center",
   },
   input: {
     justifyContent: "center",
@@ -180,7 +184,7 @@ const styles = StyleSheet.create({
     fontFamily: "Chewy",
     fontSize: 23,
     color: "#F3F3F3",
-    paddingTop: 8
+    paddingTop: 8,
   },
   button: {
     marginTop: 15,
@@ -188,12 +192,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#303030",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 2
+    borderRadius: 2,
   },
   buttonText: {
     color: "#F3F3F3",
     fontFamily: "Chewy",
-    fontSize: 28
+    fontSize: 28,
   },
   cardInput: {
     backgroundColor: "#363636",
@@ -201,7 +205,7 @@ const styles = StyleSheet.create({
     height: 44,
     margin: 10,
     marginBottom: 20,
-    borderRadius: 5
+    borderRadius: 5,
   },
   textFix: {
     //alignSelf: "center",
@@ -209,12 +213,12 @@ const styles = StyleSheet.create({
     marginStart: 7,
     fontSize: 25,
     fontFamily: "Chewy",
-    color: "#565656"
+    color: "#565656",
   },
   widthInput: {
     //width: width - 20,
     justifyContent: "center",
-    alignSelf: "center"
+    alignSelf: "center",
   },
   textLoading: {
     paddingTop: 15,
@@ -222,6 +226,6 @@ const styles = StyleSheet.create({
     //fontFamily: 'Chewy',
     color: "#F3F3F3",
     alignItems: "center",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 });

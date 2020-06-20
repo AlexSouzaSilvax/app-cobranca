@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Image,
   Alert,
-  AsyncStorage
+  AsyncStorage,
 } from "react-native";
 import { withNavigation } from "react-navigation";
 import { Spinner, Thumbnail } from "native-base";
@@ -34,7 +34,7 @@ function Header({
   tamanhoTitulo,
   pesquisa,
   onPressPesquisa,
-  trocaTema
+  trocaTema,
 }) {
   const [t, setT] = useState(titulo);
   const [u] = useState(user);
@@ -56,7 +56,6 @@ function Header({
     return (
       <View style={styles.header}>
         {u ? (
-          <View>
             <TouchableOpacity
               onPress={() => navigation.navigate(user)}
               style={styles.iconUser}
@@ -68,13 +67,10 @@ function Header({
                 small
                 source={{
                   uri:
-                    //"https://facebook.github.io/react-native/docs/assets/favicon.png"
-                    //"https://pbs.twimg.com/profile_images/1229280534137901058/QuZ1v0Kv_400x400.jpg"
-                    "https://pbs.twimg.com/media/DtZj0C3X4AETbeF?format=jpg&name=large"
+                    "https://pbs.twimg.com/media/DtZj0C3X4AETbeF?format=jpg&name=large",
                 }}
               />
             </TouchableOpacity>
-          </View>
         ) : v ? (
           <View>
             <TouchableOpacity onPress={() => navigation.navigate(voltar)}>
@@ -143,15 +139,15 @@ function Header({
                     {
                       text: "Não",
                       onPress: () => console.log(""),
-                      style: "cancel"
+                      style: "cancel",
                     },
                     {
                       text: "Sim",
                       onPress: () => {
                         AsyncStorage.removeItem("idUsuario");
                         navigation.navigate("Loading");
-                      }
-                    }
+                      },
+                    },
                   ],
                   { cancelable: false }
                 );
@@ -179,66 +175,66 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "#444444",
     height: 42,
-    marginTop: 24
+    marginTop: 24,
   },
   loadTela: {
     backgroundColor: "#444444",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   titulo: {
     alignSelf: "center",
     justifyContent: "center",
     color: "#F3F3F3",
     fontFamily: "Chewy",
-    marginTop: 3
+    marginTop: 3,
   },
   iconUser: {
     height: 30,
     width: 30,
     marginTop: 5,
     marginStart: 10,
-    alignSelf: "flex-start"
+    alignSelf: "flex-start",
   },
   iconVoltar: {
     marginTop: 5,
     height: 34,
     width: 34,
     marginStart: 14,
-    alignSelf: "flex-start"
+    alignSelf: "flex-start",
   },
   iconTema: {
     marginTop: 5,
     height: 30,
     width: 30,
     marginStart: 14,
-    alignSelf: "flex-start"
+    alignSelf: "flex-start",
   },
   iconSalvar: {
     height: 35,
     width: 35,
     marginTop: 5,
     marginEnd: 14,
-    alignSelf: "flex-end"
+    alignSelf: "flex-end",
   },
   iconApagar: {
     height: 35,
     width: 35,
     marginTop: 5,
     marginEnd: 8,
-    alignSelf: "flex-end"
+    alignSelf: "flex-end",
   },
   iconPesquisa: {
     marginTop: 7,
     marginEnd: 10,
-    alignSelf: "flex-end"
+    alignSelf: "flex-end",
   },
   iconSair: {
     marginTop: 5,
     height: 30,
     width: 30,
     marginEnd: 15,
-    alignSelf: "flex-end"
+    alignSelf: "flex-end",
   },
   textSair: {
     marginEnd: 12,
@@ -246,7 +242,7 @@ const styles = StyleSheet.create({
     color: "red",
     fontSize: 33,
     fontFamily: "Chewy",
-    marginTop: 2
+    marginTop: 2,
   },
   textSalvar: {
     color: "green",
@@ -254,8 +250,8 @@ const styles = StyleSheet.create({
     paddingEnd: 14,
     marginTop: -5,
     alignSelf: "flex-end",
-    fontFamily: "Chewy"
-  }
+    fontFamily: "Chewy",
+  },
 });
 
 export default withNavigation(Header);
