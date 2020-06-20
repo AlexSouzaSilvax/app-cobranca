@@ -9,6 +9,8 @@ import {
   SafeAreaView,
   Image,
   TouchableOpacity,
+  Alert,
+  AsyncStorage,
 } from "react-native";
 
 import { Spinner, Thumbnail } from "native-base";
@@ -20,6 +22,8 @@ import Header from "../components/Header";
 import CardTitulos from "../components/CardTitulos";
 import Pesquisa from "../components/Pesquisa";
 import { api, helper } from "../api";
+import iconSair from "../../assets/iconSair.png";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 export default function Principal({ navigation }) {
   const [titulos, setTitulos] = useState();
@@ -63,36 +67,6 @@ export default function Principal({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/*
-      {cardPesquisa ? (
-        <View
-          style={{
-            backgroundColor: "#444444",
-            height: 52,
-            marginTop: 24,
-          }}
-        >
-          <Pesquisa
-            placeHolder="Pesquisar títulos..."
-            valor={pesquisa}
-            onChangeText={(p) => pesquisar(p)}
-            onPressBackPesquisa={() => setCardPesquisa(false)}
-          />
-        </View>
-      ) : (
-        <Header
-          //titulo={"Títulos"}
-          tamanhoTitulo={28}
-          user={"DetalheUsuario"}
-          sair
-          pesquisa
-          onPressPesquisa={() => setCardPesquisa(true)}
-          // trocaTema
-        />
-      )}
-      
-        */}
-
       <Animated.View
         style={[
           styles.header,
@@ -110,35 +84,110 @@ export default function Principal({ navigation }) {
           },
         ]}
       >
-        <TouchableOpacity
-          onPress={() => navigation.navigate(user)}
-          style={styles.iconUser}
-        >
-          <Thumbnail
-            small
-            source={{
-              uri:
-                "https://pbs.twimg.com/media/DtZj0C3X4AETbeF?format=jpg&name=large",
+        {cardPesquisa ? (
+          <View
+            style={{
+              backgroundColor: "#444",
+              height: 52,
+              marginTop: 24,
+              flex: 1,
             }}
-          />
-        </TouchableOpacity>
-        <Animated.Image
-          source={require("../../assets/icon.png")}
-          style={{
-            width: scrollY.interpolate({
-              inputRange: [0, 120],
-              outputRange: [230, 90],
-              extrapolate: "clamp",
-            }),
-            height: 50,
-          }}
-          resizeMode="contain"
-        />
-        <Image
-          source={require("../../assets/icon.png")}
-          style={{ width: 30, height: 30 }}
-          resizeMode="contain"
-        />
+          >
+            <Pesquisa
+              placeHolder="Pesquisar títulos..."
+              valor={pesquisa}
+              onChangeText={(p) => pesquisar(p)}
+              onPressBackPesquisa={() => setCardPesquisa(false)}
+            />
+          </View>
+        ) : (
+          <>
+            {/* img */}
+            <TouchableOpacity
+              onPress={() => navigation.navigate(user)}
+              style={styles.iconUser}
+            >
+              <Thumbnail
+                small
+                source={{
+                  uri:
+                    "https://pbs.twimg.com/media/DtZj0C3X4AETbeF?format=jpg&name=large",
+                }}
+              />
+            </TouchableOpacity>
+
+            {/* Titulo */}
+            <Animated.View
+              style={{
+                flex: 1,
+                width: scrollY.interpolate({
+                  inputRange: [0, 120],
+                  outputRange: [230, 90],
+                  extrapolate: "clamp",
+                }),
+                height: 50,
+              }}
+              resizeMode="contain"
+            >
+              <Text
+                style={{
+                  left: 30,
+                  alignSelf: "center",
+                  justifyContent: "center",
+                  color: "#F3F3F3",
+                  fontFamily: "Chewy",
+                  marginTop: 7,
+                  fontSize: 35,
+                }}
+              >
+                Títulos
+              </Text>
+            </Animated.View>
+
+            <Animated.View style={{ flexDirection: "row", left: 15 }}>
+              {/* Pesquisa */}
+              <TouchableOpacity
+                style={{ margin: 5 }}
+                onPress={() => setCardPesquisa(true)}
+              >
+                <Icon
+                  name={"search"}
+                  size={25}
+                  color={"#aaaaaa"}
+                  style={styles.iconPesquisa}
+                />
+              </TouchableOpacity>
+
+              {/* Sair */}
+              <TouchableOpacity
+                style={{ paddingStart: 10 }}
+                onPress={() => {
+                  Alert.alert(
+                    "Deseja realmente sair?",
+                    "",
+                    [
+                      {
+                        text: "Não",
+                        onPress: () => console.log(""),
+                        style: "cancel",
+                      },
+                      {
+                        text: "Sim",
+                        onPress: () => {
+                          AsyncStorage.removeItem("idUsuario");
+                          navigation.navigate("Loading");
+                        },
+                      },
+                    ],
+                    { cancelable: false }
+                  );
+                }}
+              >
+                <Image source={iconSair} style={styles.iconSair} />
+              </TouchableOpacity>
+            </Animated.View>
+          </>
+        )}
       </Animated.View>
 
       {loading ? (
@@ -146,7 +195,7 @@ export default function Principal({ navigation }) {
           <Spinner color="#F3F3F3" />
           <Text style={styles.textLoading}>Carregando...</Text>
         </View>
-      ) : titulos ? (
+      ) : (
         <FlatList
           scrollEventThrottle={16}
           onScroll={Animated.event(
@@ -175,14 +224,10 @@ export default function Principal({ navigation }) {
             </View>
           }
         />
-      ) : (
-        <View style={styles.container}>
-          <Text style={styles.textLoading}>Nenhum título encontrado...</Text>
-        </View>
       )}
 
       <ActionButton
-        buttonColor="#56565690" //"#565656"
+        buttonColor="#56565690"
         onPress={() => navigation.navigate("DetalheTitulo")}
       />
     </SafeAreaView>
@@ -211,5 +256,12 @@ const styles = StyleSheet.create({
     color: "#F3F3F3",
     alignSelf: "center",
     justifyContent: "center",
+  },
+  iconSair: {
+    marginTop: 5,
+    height: 30,
+    width: 30,
+    marginEnd: 15,
+    alignSelf: "flex-end",
   },
 });
