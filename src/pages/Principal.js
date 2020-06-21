@@ -263,7 +263,7 @@ export default function Principal({ navigation }) {
           <Text style={styles.textLoading}>Carregando</Text>
         </View>
       ) : (
-        <>
+        <View style={{ flex: 1 }}>
           <FlatList
             scrollEventThrottle={16}
             onScroll={Animated.event(
@@ -277,7 +277,7 @@ export default function Principal({ navigation }) {
               { useNativeDriver: false }
             )}
             showsVerticalScrollIndicator={false} //remove a barra lateral scroll
-            style={styles.viewCardTitulos}
+            //style={styles.viewCardTitulos}
             data={titulosLista}
             keyExtractor={(t) => t._id}
             renderItem={({ item }) => (
@@ -311,7 +311,7 @@ export default function Principal({ navigation }) {
           ) : (
             <></>
           )}
-        </>
+        </View>
       )}
     </SafeAreaView>
   );

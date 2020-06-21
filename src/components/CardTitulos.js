@@ -41,7 +41,10 @@ function CardTitulos({ navigation, titulo, apagar }) {
     return (
       <TouchableOpacity onPress={onPress} style={styles.rightAction}>
         <Animated.View
-          style={[{ padding: 20 }, { transform: [{ scale: scale }] }]}
+          style={[
+            { padding: 20, alignSelf: "center" },
+            { transform: [{ scale: scale }] },
+          ]}
         >
           <Icon name="trash" size={40} color="#FFF" />
         </Animated.View>
@@ -61,8 +64,16 @@ function CardTitulos({ navigation, titulo, apagar }) {
         onPress={() => navigation.navigate("DetalheTitulo", { titulo })}
       >
         <View style={styles.card}>
-          <View style={{ flexDirection: "row", justifyContent: "center" }}>
-            <Text style={styles.textTitulo}>{titulo.descricao}</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignSelf: "center",
+            }}
+          >
+            <Text numberOfLines={1} style={styles.textTitulo}>
+              {titulo.descricao}
+            </Text>
           </View>
 
           <View
@@ -88,12 +99,16 @@ function CardTitulos({ navigation, titulo, apagar }) {
               flexDirection: "row",
               justifyContent: "center",
               alignSelf: "center",
+              marginBottom: 10,
             }}
           >
             <View
               style={{ flex: 1, alignSelf: "flex-start", paddingStart: 30 }}
             >
-              <Text style={styles.textVariavel}>{`R$ ${titulo.valor}`}</Text>
+              <Text
+                numberOfLines={1}
+                style={styles.textVariavel}
+              >{`R$ ${titulo.valor}`}</Text>
             </View>
 
             <View
@@ -103,7 +118,9 @@ function CardTitulos({ navigation, titulo, apagar }) {
                 marginLeft: 100,
               }}
             >
-              <Text style={styles.textVariavel}>{titulo.dataVenc}</Text>
+              <Text numberOfLines={1} style={styles.textVariavel}>
+                {titulo.dataVenc}
+              </Text>
             </View>
           </View>
         </View>
@@ -117,12 +134,15 @@ export default withNavigation(CardTitulos);
 const styles = StyleSheet.create({
   card: {
     width: width - 20,
-    height: 150,
+    height: 110,
     margin: 10,
     borderRadius: 12,
     backgroundColor: "#303030",
+    alignItems: "center",
+    justifyContent: "center",
   },
   textTitulo: {
+    //width: width - 25,
     paddingTop: 15,
     fontSize: 25,
     fontFamily: "Chewy",
@@ -136,7 +156,6 @@ const styles = StyleSheet.create({
   },
   textVariavel: {
     width: 150,
-    paddingTop: 15,
     fontSize: 20,
     fontFamily: "Chewy",
     color: "#F3F3F3",
@@ -156,11 +175,12 @@ const styles = StyleSheet.create({
   },
   rightAction: {
     width: 80,
-    height: 150,
+    height: 110,
     margin: 10,
     borderRadius: 12,
     backgroundColor: "#FF0000",
     justifyContent: "center",
+    alignSelf: "center",
     alignItems: "flex-end",
   },
   actionText: {
