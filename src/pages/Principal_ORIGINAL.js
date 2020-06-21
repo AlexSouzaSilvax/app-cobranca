@@ -19,6 +19,7 @@ import ActionButton from "react-native-action-button";
 import { createFilter } from "react-native-search-filter";
 import Constants from "expo-constants";
 
+import Header from "../components/Header";
 import CardTitulos from "../components/CardTitulos";
 import Pesquisa from "../components/Pesquisa";
 import { api, helper } from "../api";
@@ -40,8 +41,6 @@ export default function Principal({ navigation }) {
   const [alturaLista, setAlturaLista] = useState(0);
   const [alturaLista2, setAlturaLista2] = useState(0);
 
-  const [visibleAdc, setVisibleAdc] = useState(true);
-
   useEffect(() => {
     getTitulos();
   }, []);
@@ -52,14 +51,12 @@ export default function Principal({ navigation }) {
       //console.log("para baixo " + alturaLista);
 
       //esconder btn adc flutuante
-      setVisibleAdc(false);
 
       //Fechar teclado
       Keyboard.dismiss();
     } else if (alturaLista < alturaLista2) {
       //console.log("para cima " + alturaLista);
       //amostrar btn adc flutuante
-      setVisibleAdc(true);
     }
     setAlturaLista2(alturaLista);
   }, [alturaLista]);
@@ -255,14 +252,10 @@ export default function Principal({ navigation }) {
               setAlturaLista(_alturaLista);
             }}
           />
-          {visibleAdc ? (
-            <ActionButton
-              buttonColor="#56565690"
-              onPress={() => navigation.navigate("DetalheTitulo")}
-            />
-          ) : (
-            <></>
-          )}
+          <ActionButton
+            buttonColor="#56565690"
+            onPress={() => navigation.navigate("DetalheTitulo")}
+          />
         </>
       )}
     </SafeAreaView>
