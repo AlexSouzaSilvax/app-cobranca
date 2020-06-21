@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   Alert,
   AsyncStorage,
+  Keyboard,
 } from "react-native";
 
 import { Spinner, Thumbnail } from "native-base";
@@ -37,14 +38,29 @@ export default function Principal({ navigation }) {
 
   const [scrollY, setScrollY] = useState(new Animated.Value(0));
 
+  const [alturaLista, setAlturaLista] = useState(0);
+  const [alturaLista2, setAlturaLista2] = useState(0);
+
   useEffect(() => {
-    setCardPesquisa(false);
-    setLoading(true);
     getTitulos();
-    setLoading(false);
   }, []);
 
+  //controle para saber quando a lista scroola para baixo ou pra cima
+  useEffect(() => {
+    if (alturaLista > alturaLista2) {
+      //esconder btn adc flutuante
+      //console.log("para baixo " + alturaLista);
+      //Fechar teclado
+      Keyboard.dismiss();
+    } else if (alturaLista < alturaLista2) {
+      //console.log("para cima " + alturaLista);
+    }
+    setAlturaLista2(alturaLista);
+  }, [alturaLista]);
+
   async function getTitulos() {
+    setCardPesquisa(false);
+    setLoading(true);
     helper.getItem("idUsuario").then((id) => {
       api
         .post("/titulos", { _idUsuario: id })
@@ -58,6 +74,7 @@ export default function Principal({ navigation }) {
           helper.flashMessage("Falha a procurar títulos", "danger");
         });
     });
+    setLoading(false);
   }
 
   function pesquisar(p) {
@@ -67,6 +84,7 @@ export default function Principal({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* Component HeaderPrincipal - Criar Component */}
       <Animated.View
         style={[
           styles.header,
@@ -196,40 +214,46 @@ export default function Principal({ navigation }) {
           <Text style={styles.textLoading}>Carregando...</Text>
         </View>
       ) : (
-        <FlatList
-          scrollEventThrottle={16}
-          onScroll={Animated.event(
-            [
-              {
-                nativeEvent: {
-                  contentOffset: { y: scrollY },
+        <>
+          <FlatList
+            scrollEventThrottle={16}
+            onScroll={Animated.event(
+              [
+                {
+                  nativeEvent: {
+                    contentOffset: { y: scrollY },
+                  },
                 },
-              },
-            ],
-            { useNativeDriver: false }
-          )}
-          showsVerticalScrollIndicator={false} //remove a barra lateral scroll
-          style={styles.viewCardTitulos}
-          data={titulosLista}
-          keyExtractor={(t) => t._id}
-          renderItem={({ item }) => (
-            <CardTitulos key={item._id} titulo={item} />
-          )}
-          refreshControl={
-            <RefreshControl refreshing={loading} onRefresh={getTitulos} />
-          }
-          ListEmptyComponent={
-            <View style={styles.container}>
-              <Text style={styles.textLoading}>Nenhum título encontrado</Text>
-            </View>
-          }
-        />
+              ],
+              { useNativeDriver: false }
+            )}
+            showsVerticalScrollIndicator={false} //remove a barra lateral scroll
+            style={styles.viewCardTitulos}
+            data={titulosLista}
+            keyExtractor={(t) => t._id}
+            renderItem={({ item }) => (
+              <CardTitulos key={item._id} titulo={item} />
+            )}
+            refreshControl={
+              <RefreshControl refreshing={loading} onRefresh={getTitulos} />
+            }
+            ListEmptyComponent={
+              <View style={styles.container}>
+                <Text style={styles.textLoading}>Nenhum título encontrado</Text>
+              </View>
+            }
+            onScrollEndDrag={(y) => {
+              //console.log(y.nativeEvent.targetContentOffset.y);
+              var _alturaLista = y.nativeEvent.targetContentOffset.y;
+              setAlturaLista(_alturaLista);
+            }}
+          />
+          <ActionButton
+            buttonColor="#56565690"
+            onPress={() => navigation.navigate("DetalheTitulo")}
+          />
+        </>
       )}
-
-      <ActionButton
-        buttonColor="#56565690"
-        onPress={() => navigation.navigate("DetalheTitulo")}
-      />
     </SafeAreaView>
   );
 }
