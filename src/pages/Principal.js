@@ -67,7 +67,7 @@ export default function Principal({ navigation }) {
   async function getTitulos() {
     setCardPesquisa(false);
     setLoading(true);
-    helper.getItem("idUsuario").then((id) => {
+    await helper.getItem("idUsuario").then((id) => {
       api
         .post("/titulos", { _idUsuario: id })
         .then((response) => {
@@ -86,6 +86,44 @@ export default function Principal({ navigation }) {
   function pesquisar(p) {
     setPesquisa(p);
     setTitulosLista(titulosP.filter(createFilter(p, parametrosPesquisa)));
+  }
+
+  function alertApagar(id) {
+    Alert.alert(
+      "Deseja realmente apagar?",
+      "Não poderá reverter esta ação",
+      [
+        {
+          text: "Não",
+          onPress: () => console.log(""),
+          style: "cancel",
+        },
+        {
+          text: "Sim",
+          onPress: () => apagar(id),
+        },
+      ],
+      { cancelable: false }
+    );
+  }
+
+  async function apagar(_id) {
+    await api
+      .post("/titulos/apagar", {
+        _id,
+      })
+      .then((response) => {
+        if (response.status == 200) {
+          helper.flashMessage("Apagado com sucesso", "success");
+          getTitulos();
+        }
+      })
+      .catch((error) => {
+        helper.flashMessage(
+          "Não foi possível apagar\nTente novamente",
+          "danger"
+        );
+      });
   }
 
   return (
@@ -215,9 +253,14 @@ export default function Principal({ navigation }) {
       </Animated.View>
 
       {loading ? (
-        <View style={styles.container}>
+        <View
+          style={[
+            styles.container,
+            { justifyContent: "center", alignItems: "center" },
+          ]}
+        >
           <Spinner color="#F3F3F3" />
-          <Text style={styles.textLoading}>Carregando...</Text>
+          <Text style={styles.textLoading}>Carregando</Text>
         </View>
       ) : (
         <>
@@ -238,7 +281,11 @@ export default function Principal({ navigation }) {
             data={titulosLista}
             keyExtractor={(t) => t._id}
             renderItem={({ item }) => (
-              <CardTitulos key={item._id} titulo={item} />
+              <CardTitulos
+                key={item._id}
+                titulo={item}
+                apagar={() => alertApagar(item._id)}
+              />
             )}
             refreshControl={
               <RefreshControl refreshing={loading} onRefresh={getTitulos} />
@@ -254,6 +301,7 @@ export default function Principal({ navigation }) {
               var _alturaLista = y.nativeEvent.targetContentOffset.y;
               setAlturaLista(_alturaLista);
             }}
+            //          ItemSeparatorComponent={() => <Separator />}
           />
           {visibleAdc ? (
             <ActionButton
@@ -268,6 +316,8 @@ export default function Principal({ navigation }) {
     </SafeAreaView>
   );
 }
+
+//const Separator = () => (  <View style={{ flex: 1, height: 1, backgroundColor: "#DDD" }} /> );
 
 const styles = StyleSheet.create({
   header: {

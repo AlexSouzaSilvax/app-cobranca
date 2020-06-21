@@ -5,29 +5,58 @@ import {
   TouchableOpacity,
   Text,
   Dimensions,
+  Animated,
 } from "react-native";
 import { Spinner } from "native-base";
 import { withNavigation } from "react-navigation"; // para usar a navegacao de routes por components
+import Swipeable from "react-native-gesture-handler/Swipeable";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const { width, height } = Dimensions.get("screen");
 
-function CardTitulos({ navigation, titulo, _idUsuario }) {
-  const [loading, setLoading] = useState(false);
+function CardTitulos({ navigation, titulo, apagar }) {
+  function LeftActions(progress, dragX) {
+    const scale = dragX.interpolate({
+      inputRange: [0, 100],
+      outputRange: [0, 1],
+      extrapolate: "clamp",
+    });
 
-  if (loading) {
     return (
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: 10,
-        }}
-      >
-        <Spinner size="large" color={"#F3F3F3"} />
+      <View style={styles.leftAction}>
+        <Animated.Text style={[styles.actionText, { transform: [{ scale }] }]}>
+          Concluir
+        </Animated.Text>
       </View>
     );
-  } else {
+  }
+
+  function RightActions({ progress, dragX, onPress }) {
+    const scale = dragX.interpolate({
+      inputRange: [-100, 0],
+      outputRange: [1, 0],
+      extrapolate: "clamp",
+    });
+
     return (
+      <TouchableOpacity onPress={onPress} style={styles.rightAction}>
+        <Animated.View
+          style={[{ padding: 20 }, { transform: [{ scale: scale }] }]}
+        >
+          <Icon name="trash" size={40} color="#FFF" />
+        </Animated.View>
+      </TouchableOpacity>
+    );
+  }
+
+  return (
+    <Swipeable
+      //renderLeftActions={LeftActions}
+      //onSwipeableLeftOpen={() => {}}
+      renderRightActions={(progress, dragX) => (
+        <RightActions progress={progress} dragX={dragX} onPress={apagar} />
+      )}
+    >
       <TouchableOpacity
         onPress={() => navigation.navigate("DetalheTitulo", { titulo })}
       >
@@ -79,8 +108,8 @@ function CardTitulos({ navigation, titulo, _idUsuario }) {
           </View>
         </View>
       </TouchableOpacity>
-    );
-  }
+    </Swipeable>
+  );
 }
 
 export default withNavigation(CardTitulos);
@@ -111,6 +140,33 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Chewy",
     color: "#F3F3F3",
+  },
+  text: {
+    fontSize: 17,
+    color: "#222",
+  },
+  leftAction: {
+    width: 80,
+    height: 150,
+    margin: 10,
+    borderRadius: 12,
+    backgroundColor: "#388e3c",
+    justifyContent: "center",
+    flex: 1,
+  },
+  rightAction: {
+    width: 80,
+    height: 150,
+    margin: 10,
+    borderRadius: 12,
+    backgroundColor: "#FF0000",
+    justifyContent: "center",
+    alignItems: "flex-end",
+  },
+  actionText: {
+    fontSize: 17,
+    color: "#FFF",
+    padding: 20,
   },
   /*  
   cardStatusGreen: {
