@@ -1,9 +1,9 @@
 import axios from "axios";
 import { AsyncStorage } from "react-native";
-import { Toast } from 'native-base';
+import { Toast } from "native-base";
 
 export const api = axios.create({
-  baseURL: "https://alex-api-cobranca.herokuapp.com"
+  baseURL: "https://alex-api-cobranca.herokuapp.com",
 });
 
 export function sleep(milliseconds) {
@@ -27,7 +27,7 @@ export const helper = {
   },
   async getItem(key) {
     try {
-      const value = await AsyncStorage.getItem(key).then(val => {
+      const value = await AsyncStorage.getItem(key).then((val) => {
         return val;
       });
       return value;
@@ -44,22 +44,10 @@ export const helper = {
   },
   formatData(data) {
     if (data) {
-      // 01012020
-      data = data.replace(" ", "");
-      data = data.replace(".", "");
-      data = data.replace(",", "");
-      data = data.replace("-", "");
-      data = data.replace("/", "");
-      var dia = data.substr(0, 2);
-      var mes = data.substr(2, 2);
-      var ano = data.substr(4, 4);
-
-      data = `${dia}/${mes}/${ano}`;
-
+      data = data.replace(/-/g, "/").substr(0, 10);
       return data;
-    } else {
-      return "-";
     }
+    return "";
   },
   formatDataInput(data) {
     //03/03/2020
@@ -102,20 +90,18 @@ export const helper = {
       text: message,
       buttonText: "Ok",
       position: "top",
-      type: type === 'info' ? 'warning' : type,
+      type: type === "info" ? "warning" : type,
       duration: 2000,
       textStyle: {
-        color: '#F3F3F3',
-        fontSize: 17
+        color: "#F3F3F3",
+        fontSize: 17,
       },
       buttonTextStyle: {
-        color: '#F3F3F3',
-        fontWeight: '600',
-        fontSize: 17
+        color: "#F3F3F3",
+        fontWeight: "600",
+        fontSize: 17,
       },
-      buttonStyle: {
-
-      },
+      buttonStyle: {},
       style: {
         margin: 5,
         borderRadius: 8,
@@ -131,5 +117,38 @@ export const helper = {
         elevation: 1,
       },
     });
+  },
+  getDataHoje() {
+    var date = new Date();
+    var dia = date.getDate();
+    var mes = `${date.getMonth() + 1}`;
+    var ano = date.getFullYear();
+
+    if (dia.length == 1) {
+      dia = `0${dia}`;
+    }
+
+    if (mes.length == 1) {
+      mes = `0${mes}`;
+    }
+
+    //var hoje = `${ano}-${mes}-${dia}`;
+    var hoje = `${dia}/${mes}/${ano}`;
+
+    return hoje;
+  },
+  formatData2(date) {
+    var dia = `${date.getDate()}`;
+    var mes = `${date.getMonth() + 1}`;
+    var ano = `${date.getFullYear()}`;
+
+    if (dia.length == 1) {
+      dia = `0${dia}`;
+    }
+
+    if (mes.length == 1) {
+      mes = `0${mes}`;
+    }
+    return `${dia}/${mes}/${ano}`;
   },
 };

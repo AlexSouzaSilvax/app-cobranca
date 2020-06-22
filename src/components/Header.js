@@ -24,6 +24,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 function Header({
   navigation,
   titulo,
+  styleTitulo,
   user,
   sair,
   voltar,
@@ -56,21 +57,21 @@ function Header({
     return (
       <View style={styles.header}>
         {u ? (
-            <TouchableOpacity
-              onPress={() => navigation.navigate(user)}
-              style={styles.iconUser}
-            >
-              {/*
+          <TouchableOpacity
+            onPress={() => navigation.navigate(user)}
+            style={styles.iconUser}
+          >
+            {/*
                 <Image source={iconUser} style={styles.iconUser} /> 
               */}
-              <Thumbnail
-                small
-                source={{
-                  uri:
-                    "https://pbs.twimg.com/media/DtZj0C3X4AETbeF?format=jpg&name=large",
-                }}
-              />
-            </TouchableOpacity>
+            <Thumbnail
+              small
+              source={{
+                uri:
+                  "https://pbs.twimg.com/media/DtZj0C3X4AETbeF?format=jpg&name=large",
+              }}
+            />
+          </TouchableOpacity>
         ) : v ? (
           <View>
             <TouchableOpacity onPress={() => navigation.navigate(voltar)}>
@@ -100,7 +101,12 @@ function Header({
         )}
 
         <View style={{ flex: 2, paddingTop: 5 }}>
-          <Text style={[styles.titulo, { fontSize: tamanhoTitulo }]}>{t}</Text>
+          <Text
+            numberOfLines={1}
+            style={[styles.titulo, { fontSize: tamanhoTitulo }, styleTitulo]}
+          >
+            {t}
+          </Text>
         </View>
 
         {p ? (
@@ -183,11 +189,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   titulo: {
+    width: 195,
     alignSelf: "center",
     justifyContent: "center",
     color: "#F3F3F3",
     fontFamily: "Chewy",
-    marginTop: 3,
+    marginTop: 3,    
   },
   iconUser: {
     height: 30,

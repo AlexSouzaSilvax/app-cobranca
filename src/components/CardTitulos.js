@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   StyleSheet,
   View,
@@ -7,7 +7,6 @@ import {
   Dimensions,
   Animated,
 } from "react-native";
-import { Spinner } from "native-base";
 import { withNavigation } from "react-navigation"; // para usar a navegacao de routes por components
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import Icon from "react-native-vector-icons/FontAwesome";

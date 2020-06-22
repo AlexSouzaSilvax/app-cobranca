@@ -11,7 +11,8 @@ export default function Input({
   placeholderTextColor,
   placeholder,
   secureTextEntry,
-  maxLength
+  maxLength,
+  editable,
 }) {
   return (
     <View style={styles.cardInput}>
@@ -21,6 +22,7 @@ export default function Input({
 
       <View style={{ justifyContent: "center" }}>
         <TextInput
+          editable={editable}
           style={styles.input}
           secureTextEntry={secureTextEntry}
           placeholder={placeholder}
@@ -44,7 +46,7 @@ const styles = StyleSheet.create({
     fontFamily: "Chewy",
     fontSize: 23,
     color: "#F3F3F3",
-    paddingTop: 8
+    paddingTop: 8,
   },
   cardInput: {
     backgroundColor: "#363636",
@@ -53,10 +55,10 @@ const styles = StyleSheet.create({
     height: 50,
     marginBottom: 20,
     borderRadius: 5,
-    flexDirection: "row"
+    flexDirection: "row",
   },
   icon: {
     height: 30,
-    width: 30
-  }
+    width: 30,
+  },
 });

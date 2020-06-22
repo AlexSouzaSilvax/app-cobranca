@@ -8,9 +8,9 @@ import InputComponent from "../components/Input";
 
 import iconCash from "../../assets/iconCash.png";
 import iconDescricao from "../../assets/iconDescricao.png";
-import iconDate from "../../assets/iconDate.png";
 
 import { api, helper } from "../api";
+import DataFiltro from "../components/DataFiltro";
 const { width } = Dimensions.get("screen");
 
 export default function DetalheTitulo({ navigation }) {
@@ -20,7 +20,10 @@ export default function DetalheTitulo({ navigation }) {
   const [_id, setId] = useState();
   const [descricao, setDescricao] = useState();
   const [valor, setValor] = useState();
+
   const [dataVenc, setDataVenc] = useState();
+  const [modalDataVenc, setModalDataVenc] = useState();
+
   const [status, setStatus] = useState();
 
   useEffect(() => {
@@ -40,7 +43,7 @@ export default function DetalheTitulo({ navigation }) {
           _id,
           descricao,
           valor,
-          dataVenc: helper.formatDataInput(dataVenc),
+          dataVenc: dataVenc,
           status,
           usuario: id,
         })
@@ -57,6 +60,25 @@ export default function DetalheTitulo({ navigation }) {
           );
         });
     });
+  }
+
+  function alertApagar() {
+    Alert.alert(
+      "Deseja realmente apagar?",
+      "Não poderá reverter esta ação",
+      [
+        {
+          text: "Não",
+          onPress: () => console.log(""),
+          style: "cancel",
+        },
+        {
+          text: "Sim",
+          onPress: () => apagar(),
+        },
+      ],
+      { cancelable: false }
+    );
   }
 
   async function apagar() {
@@ -99,12 +121,15 @@ export default function DetalheTitulo({ navigation }) {
         ) : (
           <Header
             titulo={t.descricao}
+            styleTitulo={{
+              left: 25
+            }}
             tamanhoTitulo={25}
             voltar={"Principal"}
             salvar
             onPressSalvar={salvar}
             apagar
-            onPressApagar={apagar}
+            onPressApagar={alertApagar}
             data={t}
           />
         )}
@@ -133,17 +158,20 @@ export default function DetalheTitulo({ navigation }) {
             />
           </View>
           <Text style={styles.textFix}>Data de Vencimento</Text>
-          <View style={styles.widthInput}>
-            <InputComponent
-              icon={iconDate}
-              valor={dataVenc}
-              onChangeText={(d) => setDataVenc(d)}
-              keyboardType="number-pad"
-              placeholder={"Ex: 26/01/2020"}
-              placeholderTextColor={"#aaa"}
-              maxLength={10}
-            />
-          </View>
+          {/* Data Vencimento */}
+          <DataFiltro
+            dataVisible={modalDataVenc}
+            data={helper.formatData(dataVenc)}
+            titulo={"Data de Vencimento"}
+            onChangeData={(e) => {
+              setModalDataVenc(false);
+              console.log(helper.formatData2(e));
+              setDataVenc(helper.formatData2(e));
+              setModalDataVenc(false);
+            }}
+            setDataVisible={() => setModalDataVenc(!modalDataVenc)}
+            showDatePicker={() => setModalDataVenc(!modalDataVenc)}
+          />
         </View>
       </View>
     );
