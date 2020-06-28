@@ -15,7 +15,7 @@ import {
 } from "react-native";
 
 import { Spinner, Thumbnail } from "native-base";
-import ActionButton from "react-native-action-button";
+import ActionButton from 'react-native-action-button';
 import { createFilter } from "react-native-search-filter";
 import Constants from "expo-constants";
 
@@ -166,7 +166,7 @@ export default function Principal({ navigation }) {
           <>
             {/* img */}
             <TouchableOpacity
-              onPress={() => navigation.navigate(user)}
+              onPress={() => navigation.navigate('DetalheUsuario')}
               style={styles.iconUser}
             >
               <Thumbnail
